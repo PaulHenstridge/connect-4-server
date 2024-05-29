@@ -1,14 +1,28 @@
 class Game{
-    constructor(players, board){
+    constructor(players){
         this.players = players;
-        this.board = board;
+        this.board = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0]
+          ];
         this.gameId = randomBytes(16).toString('hex');
-        this.activePlayer = null;
+        this.activePlayer = this.players[0];
         this.winner = null;
     }
 
-    plahyTurn() {
-        
+    playTurn(player, newBoard) {
+        if (player!== this.activePlayer) return this.board;
+
+        this.board = newBoard;
+        //  checkfor win
+
+        // togglee active player
+
+        return this.board
     }
     
 }
