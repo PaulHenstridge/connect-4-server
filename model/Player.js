@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 
-class Player{
+export default class Player{
     constructor(name){
         this.name = name;
         this.playerNumber = null;
@@ -9,6 +9,6 @@ class Player{
     }
 
     quitGame(){
-
+        console.log(this.name + " quat")
     }
 }

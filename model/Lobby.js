@@ -1,17 +1,35 @@
-class Lobby {
+import Player from "./Player";
+import Game from "./Game";
+
+export default class Lobby {
     constructor(){
         this.players = [];
         this.games = [];
     }
 
-    //  think about seperate join and crerate options, so player can
-    // join an available game, or create one.  available games shown on f/e
-    joinOrCreateGame(name){
-        const player = new Player(name)
-        for ( game of games){
-            if (game.players.length <2){
-                game.players.push(player)
-            }
+    enterLobby(name){
+        const player = new Player(name);
+        this.players.push(player);
+        // return player id + ...
+    }
+
+    createGame(player){
+        const game = new Game([player])
+        game.player[0].playerNumber = 1;
+        this.games.push(game);
+    }
+
+    joinGame(player, gameId){
+        const game = this.games.find(game => game.gameId === gameId);
+        if (!game) {
+            return 'Game not found';
         }
+        
+        if(game.players.length >=2)return 'game full'
+        game.players.push(player)
+    }
+
+    viewOpenGames(){
+        return thisgames.filter( game => game.players.length === 1)
     }
 }
