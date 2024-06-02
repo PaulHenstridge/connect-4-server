@@ -1,5 +1,14 @@
 
-
+export default function checkWin(board, rowIndex, columnIndex, player){
+    const playerNumber = player.playerNumber;
+    return (
+        checkHorizontalWin(board,rowIndex, playerNumber)
+        ||
+        checkVerticalWin(board, columnIndex,playerNumber)
+        ||
+        checkDiagonalWin(board, rowIndex, columnIndex, playerNumber)
+    )
+};
 
 function checkHorizontalWin(board, rowIndex, player) {
     return board[rowIndex].reduce((acc, value) => {

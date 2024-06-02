@@ -27,6 +27,7 @@ export default class Lobby {
         
         if(game.players.length >=2)return 'game full'
         game.players.push(player)
+        player.playerNumber = game.players.length;
     }
 
     viewOpenGames(){
