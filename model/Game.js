@@ -1,6 +1,6 @@
-import {randomBytes} from crypto;
+import {randomBytes} from 'crypto';
 
-import checkWin from "../utils/checkWin";
+import checkWin from "../utils/checkWin.js";
 
 export default class Game{
     constructor(players){
@@ -19,7 +19,7 @@ export default class Game{
         this.gameOver = false;
     }
 
-    addCounter(player, columnIndex){
+    #addCounter(player, columnIndex){
         for(let rowIndex = this.board.length - 1; rowIndex>=0; rowIndex--){
             if (this.board[rowIndex][columnIndex] === 0){
                 this.board[rowIndex][columnIndex] = player.playerNumber;
@@ -34,7 +34,7 @@ export default class Game{
     playTurn(player, columnIndex) {
         if (player!== this.activePlayer) return this.board;
         let rowIndex;
-        [this.board, rowIndex] = this.addCounter(player, columnIndex);
+        [this.board, rowIndex] = this.#addCounter(player, columnIndex);
         if (rowIndex === null) return this.board; // Column was full
 
         //  checkfor win
@@ -47,7 +47,7 @@ export default class Game{
          this.activePlayer = this.players.find(p => p !== this.activePlayer);
        
 
-        return this.board
+        return this.board;
+        }
     }
-    
 }

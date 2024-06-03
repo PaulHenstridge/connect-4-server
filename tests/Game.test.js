@@ -1,5 +1,5 @@
-import Game from '../models/Game.js';
-import Player from '../models/Player.js';
+import Game from '../model/Game.js';
+import Player from '../model/Player.js';
 import checkWin from '../utils/checkWin.js';
 
 // Mock the checkWin function

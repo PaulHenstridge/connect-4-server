@@ -9,6 +9,6 @@ export default class Player{
     }
 
     quitGame(){
-        console.log(this.name + " quat")
+        console.log(this.name + " quit")
     }
 }

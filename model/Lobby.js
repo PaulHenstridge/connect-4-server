@@ -1,5 +1,5 @@
-import Player from "./Player";
-import Game from "./Game";
+import Player from "./Player.js";
+import Game from "./Game.js";
 
 export default class Lobby {
     constructor(){
@@ -10,12 +10,12 @@ export default class Lobby {
     enterLobby(name){
         const player = new Player(name);
         this.players.push(player);
-        // return player id + ...
+        return player;
     }
 
     createGame(player){
         const game = new Game([player])
-        game.player[0].playerNumber = 1;
+        game.players[0].playerNumber = 1;
         this.games.push(game);
     }
 
@@ -31,6 +31,6 @@ export default class Lobby {
     }
 
     viewOpenGames(){
-        return thisgames.filter( game => game.players.length === 1)
+        return this.games.filter( game => game.players.length === 1)
     }
 }
