@@ -26,7 +26,7 @@ const socketHandlers = (io, lobbyController) => {
                 });
                 // view open games
                 socket.on('viewOpen', async (data) => {
-                    console.log("Join event received")
+                    console.log("viewOpen event received")
                 });
             // Game 
                 //  play turn - (plyer, columnIndex)

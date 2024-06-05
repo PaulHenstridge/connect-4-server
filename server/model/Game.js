@@ -44,10 +44,8 @@ export default class Game{
             this.gameOver = true;
         } else {
          // toggle active player
-         this.activePlayer = this.players.find(p => p !== this.activePlayer);
-       
-
-        return this.board;
+            this.activePlayer = this.players.find(p => p !== this.activePlayer);
+            return this.board;
         }
     }
 }
