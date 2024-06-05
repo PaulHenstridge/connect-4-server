@@ -1,4 +1,6 @@
-const socketHandlers = (io, lobbyController) => {
+import lobbyController from '../controllers/lobbyController.js'
+
+const socketHandlers = (io) => {
     console.log('sockethandlers runs')
 
     io.on('connection', (socket) => {
@@ -8,9 +10,9 @@ const socketHandlers = (io, lobbyController) => {
             // Lobby
                 // Enter lobby - (name),
                 socket.on('enterLobby', async (data) => {
-                    lobbyController.enterLobby(data.name)
-                    // get method to return bool to use as check for success
+                    const response = lobbyController.enterLobby(data.name)
                     console.log("enterLobby event received")
+                    io.emit('enterLobbyResponse', response)
                 });
                 // create game - (player),
                 socket.on('createGame', async (data) => {

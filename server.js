@@ -5,7 +5,7 @@ import { Server } from 'socket.io'
 import socketHandlers from './services/socketHandlers.js'
 import express from "express"
 
-const port = 8000
+const port = 8001
 
 const app = express()
 

@@ -1,13 +1,17 @@
 import Player from '../model/Player.js';
-import Lobby from '../models/Lobby.js';
 
 const lobbyController = (lobby) => {
     const enterLobby = (name) => {
-        return lobby.enterLobby(name);
+        return {
+            success:lobby.enterLobby(name) instanceof Player,
+            players: lobby.players
+        } 
     };
 
     const createGame = (player) => {
-        return lobby.createGame(player);
+        if (lobby.createGame(player) ){
+            return {}
+        };
     };
 
     const joinGame = (player, gameId) => {
