@@ -1,6 +1,5 @@
-import lobbyController from '../controllers/lobbyController.js'
 
-const socketHandlers = (io) => {
+const socketHandlers = (io, lobbyController) => {
     console.log('sockethandlers runs')
 
     io.on('connection', (socket) => {
@@ -11,16 +10,19 @@ const socketHandlers = (io) => {
                 // Enter lobby - (name),
                 socket.on('enterLobby', async (data) => {
                     const response = lobbyController.enterLobby(data.name)
-                    console.log("enterLobby event received")
+                    console.log("enterLobby event received ", data)
                     io.emit('enterLobbyResponse', response)
                 });
                 // create game - (player),
                 socket.on('createGame', async (data) => {
-                    console.log("createGame event received")
+                    const response = lobbyController.createGame(data.player)
+                    io.emit('createGameResponse', response)
                 });
                 //  join game - (player, gameId),
                 socket.on('joinGame', async (data) => {
-                    console.log("joinGame event received")
+                    const response = lobbyController.joinGame(data.player, data.gameId)
+                    console.log("joinGame event received");
+                    io.emit('joinGameResponse', response)
                 });
                 // view open games
                 socket.on('viewOpen', async (data) => {

@@ -17,6 +17,7 @@ export default class Lobby {
         const game = new Game([player])
         game.players[0].playerNumber = 1;
         this.games.push(game);
+        return game;
     }
 
     joinGame(player, gameId){
@@ -28,6 +29,7 @@ export default class Lobby {
         if(game.players.length >=2)return 'game full'
         game.players.push(player)
         player.playerNumber = game.players.length;
+        return game;
     }
 
     viewOpenGames(){
