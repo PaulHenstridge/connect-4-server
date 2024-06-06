@@ -1,7 +1,7 @@
 import Game from '../model/Game.js';
 import Player from '../model/Player.js';
 
-const lobbyController = (lobby) => {
+const controller = (lobby) => {
     const enterLobby = (name) => {
         const newPlayer = lobby.enterLobby(name)
         return {
@@ -10,7 +10,8 @@ const lobbyController = (lobby) => {
         } 
     };
 
-    const createGame = (player) => {
+    const createGame = (playerId) => {
+        const player = lobby.findPlayerById(playerId)
         const newGame = lobby.createGame(player)
         console.log("new game: ", newGame)
         return {
@@ -20,10 +21,10 @@ const lobbyController = (lobby) => {
     };
 
     const joinGame = (player, gameId) => {
-        if(lobby.joinGame(player, gameId) instanceof Game){
-            console.log("game created, lets play!")
-        } else {
-            console.log("no space in this game, return to open games")
+        const joinGameResponse = lobby.joinGame(player, gameId);
+        return {
+            success: joinGameResponse instanceof Game,
+            game: joinGameResponse
         }
     };
 
@@ -31,12 +32,20 @@ const lobbyController = (lobby) => {
         return lobby.viewOpenGames();
     };
 
+    const playTurn = (playerId, columnIndex, gameId) => {
+        const player = lobby.findPlayerById(playerId);
+        const game = lobby.findGameById(gameId);
+        const gameOver = game.playTurn(player, columnIndex)
+        return { gameOver, game }
+    }
+
     return {
         enterLobby,
         createGame,
         joinGame,
-        viewOpenGames
+        viewOpenGames,
+        playTurn
     };
 };
 
-export default lobbyController;
+export default controller;

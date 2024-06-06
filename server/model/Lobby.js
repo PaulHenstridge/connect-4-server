@@ -21,12 +21,11 @@ export default class Lobby {
     }
 
     joinGame(player, gameId){
-        const game = this.games.find(game => game.gameId === gameId);
-        if (!game) {
-            return 'Game not found';
-        }
-        
+        const game = this.findGameById(gameId);
+
+        if (!game) return 'Game not found';
         if(game.players.length >=2)return 'game full'
+
         game.players.push(player)
         player.playerNumber = game.players.length;
         return game;
@@ -34,5 +33,13 @@ export default class Lobby {
 
     viewOpenGames(){
         return this.games.filter( game => game.players.length === 1)
+    }
+
+    findGameById(gameId){
+        return this.games.find(game => game.gameId === gameId);
+    }
+
+    findPlayerById(playerId){
+        return this.players.find(player => player.playerId === playerId)
     }
 }

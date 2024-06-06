@@ -5,7 +5,7 @@ import { Server } from 'socket.io'
 import socketHandlers from './services/socketHandlers.js'
 import express from "express"
 import Lobby from "./model/Lobby.js"
-import lobbyController from "./controllers/lobbyController.js"
+import controller from "./controllers/controller.js"
 
 const port = 8000
 
@@ -27,11 +27,11 @@ const io = new Server(server, {
 
 // create the game lobby
 const lobby = new Lobby;
-const lobbyControl = lobbyController(lobby)
+const myController = controller(lobby)
 
 
 // Use the socketHandlers function to handle the Socket.IO events
-socketHandlers(io, lobbyControl);
+socketHandlers(io, myController);
 
 server.listen(port, () => {
     console.log(`listening on port ${port}`)

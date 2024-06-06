@@ -14,7 +14,7 @@ export default class Game{
             [0,0,0,0,0,0,0]
           ];
         this.gameId = randomBytes(16).toString('hex');
-        this.activePlayer = this.players[0];
+        this.activePlayer = this.players[0]; //should use id?
         this.winner = null;
         this.gameOver = false;
     }
@@ -35,17 +35,18 @@ export default class Game{
         if (player!== this.activePlayer) return this.board;
         let rowIndex;
         [this.board, rowIndex] = this.#addCounter(player, columnIndex);
-        if (rowIndex === null) return this.board; // Column was full
+        if (rowIndex === null) return this.gameOver; // Column was full
 
         //  checkfor win
         if(checkWin(this.board, columnIndex, rowIndex, player)){
             console.log(`${player.name}, who was player ${player.playerNumber} has won!`)
             this.winner = player;
             this.gameOver = true;
+            return this.gameOver;
         } else {
          // toggle active player
             this.activePlayer = this.players.find(p => p !== this.activePlayer);
-            return this.board;
+            return this.gameOver;
         }
     }
 }
