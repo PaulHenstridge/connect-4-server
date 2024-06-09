@@ -6,8 +6,9 @@ const controller = (lobby) => {
         const newPlayer = lobby.enterLobby(name)
         return {
             success: newPlayer instanceof Player,
+            newPlayerId: newPlayer.playerId,
             players: lobby.players,
-            newPlayerId: newPlayer.playerId
+            currentGames: lobby.games
         } 
     };
 
