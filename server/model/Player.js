@@ -8,6 +8,7 @@ export default class Player{
         this.wins = 0;
     }
 
+    
     quitGame(){
         console.log(this.name + " quit")
     }

@@ -6,12 +6,15 @@ const controller = (lobby) => {
         const newPlayer = lobby.enterLobby(name)
         return {
             success: newPlayer instanceof Player,
-            players: lobby.players
+            players: lobby.players,
+            newPlayerId: newPlayer.playerId
         } 
     };
 
     const createGame = (playerId) => {
         const player = lobby.findPlayerById(playerId)
+        console.log("player found in create game-> ", player)
+        console.log('lobby',lobby)
         const newGame = lobby.createGame(player)
         console.log("new game: ", newGame)
         return {

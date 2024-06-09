@@ -9,12 +9,15 @@ export default class Lobby {
 
     enterLobby(name){
         const player = new Player(name);
+        console.log('enter lobby player created', player)
         this.players.push(player);
         return player;
     }
 
     createGame(player){
+        console.log("player in createGame ", player)
         const game = new Game([player])
+        console.log("game in lobby create game ", game)
         game.players[0].playerNumber = 1;
         this.games.push(game);
         return game;
@@ -39,7 +42,8 @@ export default class Lobby {
         return this.games.find(game => game.gameId === gameId);
     }
 
-    findPlayerById(playerId){
-        return this.players.find(player => player.playerId === playerId)
+    findPlayerById(id){
+        console.log('searched id in findPlayerById', id)
+        return this.players.find(player => player.playerId === id)
     }
 }

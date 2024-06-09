@@ -10,12 +10,14 @@ const socketHandlers = (io, controller) => {
                 // Enter lobby - (name),
                 socket.on('enterLobby', async (data) => {
                     const response = controller.enterLobby(data.playerName)
-                    console.log("enterLobby event received ", data)
+                    console.log("enterLobby event response ", response)
                     io.emit('enterLobbyResponse', response)
                 });
                 // create game - (playerId),
                 socket.on('createGame', async (data) => {
-                    const response = controller.createGame(data.playerId)
+                    console.log('###data in createGame socketHandler ', data)
+                    const response = controller.createGame(data)
+                    console.log('response in sockethandler(19): ', response)
                     io.emit('createGameResponse', response)
                 });
                 //  join game - (playerId, gameId),
@@ -29,6 +31,7 @@ const socketHandlers = (io, controller) => {
                     console.log("viewOpen event received")
                     return controller.viewOpenGames()
                 });
+
             // Game 
                 //  play turn - (plyer, columnIndex, gameId)
                 socket.on('playTurn', async (data) => {
