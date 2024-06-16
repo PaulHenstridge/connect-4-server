@@ -3,10 +3,11 @@ import Player from '../model/Player.js';
 
 const controller = (lobby) => {
     const enterLobby = (name) => {
+        console.log('name passed to controller.enterLobby', name)
         const newPlayer = lobby.enterLobby(name)
         return {
             success: newPlayer instanceof Player,
-            newPlayerId: newPlayer.playerId,
+            newPlayer: newPlayer,
             players: lobby.players,
             currentGames: lobby.games
         } 
@@ -20,12 +21,15 @@ const controller = (lobby) => {
         console.log("new game: ", newGame)
         return {
             success: newGame instanceof Game,
-            game: newGame
+            game: newGame,
+            currentGames: lobby.games
         };
     };
 
-    const joinGame = (player, gameId) => {
+    const joinGame = (playerId, gameId) => {
+        const player = lobby.findPlayerById(playerId);
         const joinGameResponse = lobby.joinGame(player, gameId);
+
         return {
             success: joinGameResponse instanceof Game,
             game: joinGameResponse

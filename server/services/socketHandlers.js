@@ -8,8 +8,8 @@ const socketHandlers = (io, controller) => {
         // events
             // Lobby
                 // Enter lobby - (name),
-                socket.on('enterLobby', async (data) => {
-                    const response = controller.enterLobby(data.playerName)
+                socket.on('enterLobby', async (playerName) => {
+                    const response = controller.enterLobby(playerName)
                     console.log("enterLobby event response ", response)
                     io.emit('enterLobbyResponse', response)
                 });
@@ -22,7 +22,7 @@ const socketHandlers = (io, controller) => {
                 });
                 //  join game - (playerId, gameId),
                 socket.on('joinGame', async (data) => {
-                    const response = controller.joinGame(data.player, data.gameId)
+                    const response = controller.joinGame(data.playerId, data.gameId)
                     console.log("joinGame event received");
                     io.emit('joinGameResponse', response)
                 });
