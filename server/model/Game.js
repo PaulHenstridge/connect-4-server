@@ -30,9 +30,9 @@ export default class Game{
             return [this.board, null];
     }
 
-    
+
     playTurn(player, columnIndex) {
-        if (player!== this.activePlayer) return this.board;
+        if (player!== this.activePlayer) return this.gameOver;
 
         let rowIndex;
         [this.board, rowIndex] = this.#addCounter(player, columnIndex);

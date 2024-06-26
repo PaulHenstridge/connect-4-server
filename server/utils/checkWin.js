@@ -1,6 +1,11 @@
 
 export default function checkWin(board, rowIndex, columnIndex, player){
     const playerNumber = player.playerNumber;
+    console.log('WIN CHECKING-> ',
+    checkHorizontalWin(board,rowIndex, playerNumber),
+    checkVerticalWin(board, columnIndex,playerNumber),
+    checkDiagonalWin(board, rowIndex, columnIndex, playerNumber))
+    
     return (
         checkHorizontalWin(board,rowIndex, playerNumber)
         ||
