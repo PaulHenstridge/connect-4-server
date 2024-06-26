@@ -28,11 +28,12 @@ const controller = (lobby) => {
 
     const joinGame = (playerId, gameId) => {
         const player = lobby.findPlayerById(playerId);
-        const joinGameResponse = lobby.joinGame(player, gameId);
+        const joinedGame = lobby.joinGame(player, gameId);
 
         return {
-            success: joinGameResponse instanceof Game,
-            game: joinGameResponse
+            success: joinedGame instanceof Game,
+            game: joinedGame,
+            currentGames: lobby.games
         }
     };
 

@@ -11,12 +11,13 @@ const socketHandlers = (io, controller) => {
                 socket.on('enterLobby', async (playerName) => {
                     const response = controller.enterLobby(playerName)
                     console.log("enterLobby event response ", response)
+                    socket.emit("newPlayerId", response.newPlayer.playerId)
                     io.emit('enterLobbyResponse', response)
                 });
                 // create game - (playerId),
-                socket.on('createGame', async (data) => {
-                    console.log('###data in createGame socketHandler ', data)
-                    const response = controller.createGame(data)
+                socket.on('createGame', async (playerId) => {
+                    console.log('###data in createGame socketHandler ', playerId)
+                    const response = controller.createGame(playerId)
                     console.log('response in sockethandler(19): ', response)
                     io.emit('createGameResponse', response)
                 });
