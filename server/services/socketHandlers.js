@@ -35,9 +35,10 @@ const socketHandlers = (io, controller) => {
 
             // Game 
                 //  play turn - (plyer, columnIndex, gameId)
-                socket.on('playTurn', async (data) => {
+                socket.on('playTurn', async ({playerId, columnIndex, gameId}) => {
                     console.log("playTurn event received")
                     const response = controller.playTurn(playerId, columnIndex, gameId)
+                    console.log('playturn resonse ', response)
                     io.emit('playTurnResponse', response)
                 });
             // Player

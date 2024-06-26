@@ -24,15 +24,16 @@ export default class Game{
             if (this.board[rowIndex][columnIndex] === 0){
                 this.board[rowIndex][columnIndex] = player.playerNumber;
                 return [this.board, rowIndex];
-                break;
             }
+        }
             console.log("column is full")
             return [this.board, null];
-        }
     }
 
+    
     playTurn(player, columnIndex) {
         if (player!== this.activePlayer) return this.board;
+
         let rowIndex;
         [this.board, rowIndex] = this.#addCounter(player, columnIndex);
         if (rowIndex === null) return this.gameOver; // Column was full
