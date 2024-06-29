@@ -39,8 +39,8 @@ export default class Game{
         if (rowIndex === null) return this.gameOver; // Column was full
 
         //  checkfor win
-        if(checkWin(this.board, columnIndex, rowIndex, player)){
-            console.log(`${player.name}, who was player ${player.playerNumber} has won!`)
+        if(checkWin(this.board, rowIndex, columnIndex, player)){
+            console.log(`${player.playerName}, who was player ${player.playerNumber} has won!`)
             this.winner = player;
             this.gameOver = true;
             return this.gameOver;
