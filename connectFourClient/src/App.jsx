@@ -1,33 +1,110 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 
+import Board from './components/Board'
+import ColumnButtons from './components/ColumnButtons'
+import DisplayPanel from './components/DisplayPanel'
+import Header from './components/header'
+
+import socket from './utils/socket'
+import LogIn from './components/LogIn'
+import Lobby from './components/Lobby'
+
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [board, setBoard] = useState([
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0]
+  ]);
+
+  const [playerId, setPlayerId] = useState('');
+  const [gameOver, setGameOver] = useState(false);
+
+  const [players, setPlayers] = useState([]);
+  const [games, setGames] = useState([]);
+  const [currentGame, setCurrentGame] = useState({});
+  const [gameOn, setGameOn] = useState(false);
+
+const [winner, setWinner] = useState(null);
+
+  // socket emitting
+  const enterLobby = playerName => {
+    socket.emit('enterLobby', playerName);
+  }
+
+  const createGame = playerId => {
+    socket.emit('createGame', playerId);
+  }
+
+  const joinGame = (playerId, gameId) => {
+    socket.emit('joinGame', playerId);
+  }
+
+  const onColumnSelect = (columnIndex) => {
+    if (gameOver) return;
+
+    socket.emit('playTurn');
+    
+    };
+
+  const declareWinner = (winner) => {
+    setGameOver(true);
+    setWinner(winner);
+  }
+
+
+  useEffect(() => {
+    if(winner !== null){
+      console.log(`By the power of useEffect player ${winner} is the weeeeeener!`);
+    }
+  },[winner]);
+
+  //socket listening
+  useEffect(() => {
+    socket.on('enterLobbyResponse', data => {
+        console.log('enterLobby event received ', data);
+        setPlayerId(data.newPlayer.playerId);
+        setGames(data.currentGames);
+        setPlayers(data.players);
+    })
+
+    socket.on('joinGameResponse', data => {
+        console.log("joinGame response received")
+        setCurrentGame(data.game)
+        setGameOn(true)
+    })
+
+    return () => {
+        socket.off('enterLobbyResponse');
+        socket.off('joinGameResponse');
+    }
+}, [socket])
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+
+      {!gameOn && <div>
+        <LogIn onEnterLobby = {enterLobby}/>
+        <Lobby 
+          onCreateGame={createGame} 
+          players={players} 
+          games={games} 
+          onJoinGame={joinGame}
+          playerId={playerId}
+        />
+      </div>}
+    
+      {gameOn && <div> 
+        <ColumnButtons boardArr={board} onColumnSelect={onColumnSelect}/>
+        <Board boardArr={board}/>
+      </div>}
+     
+      {/* <DisplayPanel gameOver={gameOver} winner={winner} player={isP1?1:2}/> */}
     </>
   )
 }
