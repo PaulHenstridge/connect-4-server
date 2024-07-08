@@ -8,34 +8,34 @@ const socketHandlers = (io, controller) => {
         // events
             // Lobby
                 // Enter lobby - (name),
-                socket.on('enterLobby', async (playerName) => {
+                socket.on('enterLobby', (playerName) => {
                     const response = controller.enterLobby(playerName)
                     console.log("enterLobby event response ", response)
                     socket.emit("newPlayerId", response.newPlayer.playerId)
                     io.emit('enterLobbyResponse', response)
                 });
                 // create game - (playerId),
-                socket.on('createGame', async (playerId) => {
+                socket.on('createGame', (playerId) => {
                     console.log('###data in createGame socketHandler ', playerId)
                     const response = controller.createGame(playerId)
                     console.log('response in sockethandler(19): ', response)
                     io.emit('createGameResponse', response)
                 });
                 //  join game - (playerId, gameId),
-                socket.on('joinGame', async (data) => {
+                socket.on('joinGame', (data) => {
                     const response = controller.joinGame(data.playerId, data.gameId)
                     console.log("joinGame event received");
                     io.emit('joinGameResponse', response)
                 });
                 // view open games
-                socket.on('viewOpen', async (data) => {
+                socket.on('viewOpen', (data) => {
                     console.log("viewOpen event received")
                     return controller.viewOpenGames()
                 });
 
             // Game 
                 //  play turn - (plyer, columnIndex, gameId)
-                socket.on('playTurn', async ({playerId, columnIndex, gameId}) => {
+                socket.on('playTurn', ({playerId, columnIndex, gameId}) => {
                     console.log("playTurn event received")
                     const response = controller.playTurn(playerId, columnIndex, gameId)
                     console.log('playturn resonse ', response)
@@ -43,14 +43,14 @@ const socketHandlers = (io, controller) => {
                 });
             // Player
                 // quit - (player)
-                socket.on('quit', async (data) => {
+                socket.on('quit', (data) => {
                     console.log("quit event received")
                 });
 
 
 
         // chat events
-        socket.on('message', async (data) => {
+        socket.on('message', (data) => {
             console.log("Message event received")
         });
 

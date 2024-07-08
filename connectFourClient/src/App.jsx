@@ -27,6 +27,8 @@ function App() {
   const [players, setPlayers] = useState([]);
   const [games, setGames] = useState([]);
   const [currentGame, setCurrentGame] = useState({});
+
+  const [waitingForOpponent, setWaitingforOpponent] = useState(false);
   const [gameOn, setGameOn] = useState(false);
 
 const [winner, setWinner] = useState(null);
@@ -41,7 +43,7 @@ const [winner, setWinner] = useState(null);
   }
 
   const joinGame = (playerId, gameId) => {
-    socket.emit('joinGame', playerId);
+    socket.emit('joinGame', {playerId, gameId});
   }
 
   const onColumnSelect = (columnIndex) => {
@@ -70,13 +72,21 @@ const [winner, setWinner] = useState(null);
         setPlayerId(data.newPlayer.playerId);
         setGames(data.currentGames);
         setPlayers(data.players);
-    })
+    });
+
+    socket.on('createGameResponse', data => {
+        console.log("createGame response received");
+        setCurrentGame(data.game);
+        setGames(data.currentGames);
+        setWaitingforOpponent(true);
+    });
 
     socket.on('joinGameResponse', data => {
-        console.log("joinGame response received")
-        setCurrentGame(data.game)
-        setGameOn(true)
-    })
+        console.log("joinGame response received");
+        setCurrentGame(data.game);
+        setGameOn(true);
+        setGames(data.currentGames);
+    });
 
     return () => {
         socket.off('enterLobbyResponse');

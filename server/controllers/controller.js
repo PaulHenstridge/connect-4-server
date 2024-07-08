@@ -44,8 +44,8 @@ const controller = (lobby) => {
     const playTurn = (playerId, columnIndex, gameId) => {
         const player = lobby.findPlayerById(playerId);
         const game = lobby.findGameById(gameId);
-        const isGameOver = game.playTurn(player, columnIndex)
-        return { isGameOver, game }
+        const isGameOver = game.playTurn(player, columnIndex);
+        return { isGameOver, game };
     }
 
     return {
