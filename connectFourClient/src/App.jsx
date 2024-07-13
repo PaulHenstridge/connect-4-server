@@ -21,7 +21,7 @@ function App() {
     [0,0,0,0,0,0,0]
   ]);
 
-  const [playerId, setPlayerId] = useState('');
+  const [player, setPlayer] = useState({});
   const [gameOver, setGameOver] = useState(false);
 
   const [players, setPlayers] = useState([]);
@@ -36,20 +36,24 @@ const [winner, setWinner] = useState(null);
   // socket emitting
   const enterLobby = playerName => {
     socket.emit('enterLobby', playerName);
-  }
+  };
 
   const createGame = playerId => {
     socket.emit('createGame', playerId);
-  }
+  };
 
   const joinGame = (playerId, gameId) => {
     socket.emit('joinGame', {playerId, gameId});
-  }
+  };
 
   const onColumnSelect = (columnIndex) => {
     if (gameOver) return;
 
-    socket.emit('playTurn');
+    socket.emit('playTurn', {
+      playerId: player.playerId,
+      columnIndex: columnIndex,
+      gameId: currentGame.gameId
+    });
     
     };
 
@@ -69,7 +73,7 @@ const [winner, setWinner] = useState(null);
   useEffect(() => {
     socket.on('enterLobbyResponse', data => {
         console.log('enterLobby event received ', data);
-        setPlayerId(data.newPlayer.playerId);
+        setPlayer(data.newPlayer);
         setGames(data.currentGames);
         setPlayers(data.players);
     });
@@ -87,10 +91,20 @@ const [winner, setWinner] = useState(null);
         setGameOn(true);
         setGames(data.currentGames);
     });
+    
+    socket.on('playTurnResponse', data => {
+        console.log("playTurn response received");
+        setCurrentGame(data.game);
+        setBoard(data.game.board);
+        // TODO - duplication.  does board need its own state if its in currentGame?
+    });
 
     return () => {
         socket.off('enterLobbyResponse');
+        socket.off('createGameResponse');
         socket.off('joinGameResponse');
+        socket.off('playTurnResponse');
+
     }
 }, [socket])
 
@@ -105,7 +119,7 @@ const [winner, setWinner] = useState(null);
           players={players} 
           games={games} 
           onJoinGame={joinGame}
-          playerId={playerId}
+          playerId={player.playerId}
         />
       </div>}
     
