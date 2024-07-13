@@ -73,9 +73,14 @@ const [winner, setWinner] = useState(null);
   useEffect(() => {
     socket.on('enterLobbyResponse', data => {
         console.log('enterLobby event received ', data);
-        setPlayer(data.newPlayer);
         setGames(data.currentGames);
         setPlayers(data.players);
+    });
+ 
+    
+    socket.on('newPlayerObject', player => {
+        console.log('newPlayerObject event received ', player);
+        setPlayer(player); 
     });
 
     socket.on('createGameResponse', data => {
@@ -86,7 +91,7 @@ const [winner, setWinner] = useState(null);
     });
 
     socket.on('joinGameResponse', data => {
-        console.log("joinGame response received");
+        console.log("joinGame response received", data);
         setCurrentGame(data.game);
         setGameOn(true);
         setGames(data.currentGames);
@@ -96,6 +101,8 @@ const [winner, setWinner] = useState(null);
         console.log("playTurn response received");
         setCurrentGame(data.game);
         setBoard(data.game.board);
+        setGameOver(data.gameOver);
+        
         // TODO - duplication.  does board need its own state if its in currentGame?
     });
 
@@ -123,12 +130,12 @@ const [winner, setWinner] = useState(null);
         />
       </div>}
     
-      {gameOn && <div> 
+      {gameOn && !gameOver && <div> 
         <ColumnButtons boardArr={board} onColumnSelect={onColumnSelect}/>
         <Board boardArr={board}/>
       </div>}
      
-      {/* <DisplayPanel gameOver={gameOver} winner={winner} player={isP1?1:2}/> */}
+      <DisplayPanel gameOver={gameOver} winner={winner}/>
     </>
   )
 }

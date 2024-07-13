@@ -11,7 +11,7 @@ const socketHandlers = (io, controller) => {
                 socket.on('enterLobby', (playerName) => {
                     const response = controller.enterLobby(playerName)
                     console.log("enterLobby event response ", response)
-                    socket.emit("newPlayerId", response.newPlayer.playerId)
+                    socket.emit("newPlayerObject", response.newPlayer)
                     io.emit('enterLobbyResponse', response)
                 });
                 // create game - (playerId),
