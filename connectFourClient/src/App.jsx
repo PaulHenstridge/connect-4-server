@@ -9,6 +9,7 @@ import Header from './components/header'
 import socket from './utils/socket'
 import LogIn from './components/LogIn'
 import Lobby from './components/Lobby'
+import PlayAgain from './components/PlayAgain'
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
     [0,0,0,0,0,0,0]
   ]);
 
-  const [player, setPlayer] = useState({});
+  const [player, setPlayer] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const [players, setPlayers] = useState([]);
@@ -120,7 +121,7 @@ const [winner, setWinner] = useState(null);
       <Header />
 
       {!gameOn && <div>
-        <LogIn onEnterLobby = {enterLobby}/>
+        { !player &&<LogIn onEnterLobby = {enterLobby}/>}
         <Lobby 
           onCreateGame={createGame} 
           players={players} 
@@ -134,6 +135,8 @@ const [winner, setWinner] = useState(null);
         <ColumnButtons boardArr={board} onColumnSelect={onColumnSelect}/>
         <Board boardArr={board}/>
       </div>}
+
+      {gameOn && gameOver && <PlayAgain />}
      
       <DisplayPanel gameOver={gameOver} winner={winner}/>
     </>
