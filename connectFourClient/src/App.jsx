@@ -47,21 +47,30 @@ const [winner, setWinner] = useState(null);
     socket.emit('joinGame', {playerId, gameId});
   };
 
-  const onColumnSelect = (columnIndex) => {
+  const columnSelect = (columnIndex) => {
     if (gameOver) return;
 
     socket.emit('playTurn', {
-      playerId: player.playerId,
-      columnIndex: columnIndex,
-      gameId: currentGame.gameId
-    });
+        playerId: player.playerId,
+        columnIndex: columnIndex,
+        gameId: currentGame.gameId
+      });
     
     };
 
   const declareWinner = (winner) => {
-    setGameOver(true);
+    setGameOver(true); //unneeded?
     setWinner(winner);
   }
+
+
+  const playAgain = (playerId) => {
+      // send id thru to b/e to handle. sends response of wait or go.
+      // wait = waiting for player
+      // go = send new game object. update current game for both players. alternate p1/p2
+      //
+  }
+
 
 
   useEffect(() => {
@@ -102,10 +111,15 @@ const [winner, setWinner] = useState(null);
         console.log("playTurn response received");
         setCurrentGame(data.game);
         setBoard(data.game.board);
-        setGameOver(data.gameOver);
-        
-        // TODO - duplication.  does board need its own state if its in currentGame?
+        setGameOver(data.isGameOver);
+        if(data.isGameOver){
+          console.log('gameOver playturn response', data)
+        }
+
+        // if gameOver call a function, pass in game, update everything
+        // : player wins, formally end game and offer play again, any other admin...
     });
+
 
     return () => {
         socket.off('enterLobbyResponse');
@@ -119,26 +133,28 @@ const [winner, setWinner] = useState(null);
   return (
     <>
       <Header />
+      <div>{gameOver}</div>
 
       {!gameOn && <div>
         { !player &&<LogIn onEnterLobby = {enterLobby}/>}
-        <Lobby 
+        {player && <Lobby 
           onCreateGame={createGame} 
           players={players} 
           games={games} 
           onJoinGame={joinGame}
           playerId={player.playerId}
-        />
+        />}
       </div>}
     
-      {gameOn && !gameOver && <div> 
-        <ColumnButtons boardArr={board} onColumnSelect={onColumnSelect}/>
+      {gameOn && <div> 
+        <ColumnButtons boardArr={board} onColumnSelect={columnSelect}/>
         <Board boardArr={board}/>
       </div>}
 
-      {gameOn && gameOver && <PlayAgain />}
+      {gameOn && gameOver && 
+        <PlayAgain game={currentGame} onPlayAgain={playAgain}/>}
      
-      <DisplayPanel gameOver={gameOver} winner={winner}/>
+       <DisplayPanel gameOver={gameOver} winner={winner}/>
     </>
   )
 }
