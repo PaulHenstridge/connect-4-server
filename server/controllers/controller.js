@@ -2,8 +2,8 @@ import Game from '../model/Game.js';
 import Player from '../model/Player.js';
 
 const controller = (lobby) => {
+
     const enterLobby = (name) => {
-        console.log('name passed to controller.enterLobby', name)
         const newPlayer = lobby.enterLobby(name)
         return {
             success: newPlayer instanceof Player,

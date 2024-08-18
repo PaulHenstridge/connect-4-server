@@ -14,7 +14,7 @@ export default class Game{
             [0,0,0,0,0,0,0]
           ];
         this.gameId = randomBytes(16).toString('hex');
-        this.activePlayer = this.players[0]; //should use id?
+        this.activePlayer = this.players[0]; 
         this.winner = null;
         this.gameOver = false;
     }
@@ -32,6 +32,7 @@ export default class Game{
 
 
     playTurn(player, columnIndex) {
+        if (this.gameOver) return this.gameOver;
         if (player!== this.activePlayer) return this.gameOver;
 
         let rowIndex;
