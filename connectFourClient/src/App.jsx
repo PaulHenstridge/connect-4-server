@@ -99,9 +99,15 @@ const [winner, setWinner] = useState(null);
 
     socket.on('joinGameResponse', data => {
         console.log("joinGame response received", data);
-        setCurrentGame(data.game);
-        setGameOn(true);
-        setGames(data.currentGames);
+        if (data.success){
+          setCurrentGame(data.game);
+          setGameOn(true);
+          setGames(data.currentGames);
+        } else {
+          console.log(game)
+          // show error message in DOM
+        }
+
     });
     
     socket.on('playTurnResponse', data => {

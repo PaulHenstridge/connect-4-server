@@ -28,6 +28,9 @@ export default class Lobby {
 
         if (!game) return 'Game not found';
         if(game.players.length >=2)return 'game full'
+        if (player.playerId === this.players[0].playerId){
+            return "Cannot join your own game"
+        }
 
         game.players.push(player)
         player.playerNumber = game.players.length;
