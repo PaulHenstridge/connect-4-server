@@ -15,7 +15,7 @@ const Container = styled.div`
 `
 
 const ResultDisplay = styled.div`
-    background-color: ${ props => props.pNum === 1 ? 'red' : 'blue'};
+    background-color: ${ props => props.pnum === 1 ? 'red' : 'blue'};
     border: 2px solid black;
     padding:2rem;
 `
@@ -30,21 +30,21 @@ const DecisionPanel = styled.div`
 // TODO - make timer component, pass in function to call on zero
 //      - function to restart game if both players agree
 
-const PlayAgain = ({game, onPlayAgain}) => {
+const PlayAgain = ({game, onPlayAgain, playerId, gameId}) => {
 
     // on gameOver a timer begins for both players to choose playAgain
     //  if both layers do not click game is ended
     // else a new game is started
     
     return ( <Container>
-<ResultDisplay pNum={game.winner.playerNumber}>
+<ResultDisplay pnum={game.winner.playerNumber}>
     <h2>{game.winner.playerName} is the winner!</h2>
     <p>A xth career win</p>
 </ResultDisplay>
 
         <DecisionPanel>
             <h3>Play again?</h3>
-            <button onClick={() => onPlayAgain(playerId)}>Yes</button>
+            <button onClick={() => onPlayAgain(playerId, gameId)}>Yes</button>
             <button>No</button>
         </DecisionPanel>
       

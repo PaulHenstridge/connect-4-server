@@ -1,11 +1,6 @@
 
 export default function checkWin(board, rowIndex, columnIndex, player){
     const playerNumber = player.playerNumber;
-    console.log('iput to checkWin', board, rowIndex, columnIndex, player)
-    console.log('WIN CHECKING-> ',
-    checkHorizontalWin(board,rowIndex, playerNumber),
-    checkVerticalWin(board, columnIndex,playerNumber),
-    checkDiagonalWin(board, rowIndex, columnIndex, playerNumber))
 
     return (
         checkHorizontalWin(board,rowIndex, playerNumber)
@@ -33,7 +28,6 @@ function checkHorizontalWin(board, rowIndex, player) {
 }
    // check for vertical win
   function checkVerticalWin(board, columnIndex, player) {
-    console.log('args to checkVertWin ', board, columnIndex, player)
   let count = 0;
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
     if (board[rowIndex][columnIndex] === player) {

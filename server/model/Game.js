@@ -17,6 +17,7 @@ export default class Game{
         this.activePlayer = this.players[0]; 
         this.winner = null;
         this.gameOver = false;
+        this.rematch = {1:false, 2:false}
     }
 
     #addCounter(player, columnIndex){

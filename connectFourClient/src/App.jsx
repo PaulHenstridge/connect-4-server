@@ -64,11 +64,8 @@ const [winner, setWinner] = useState(null);
   }
 
 
-  const playAgain = (playerId) => {
-      // send id thru to b/e to handle. sends response of wait or go.
-      // wait = waiting for player
-      // go = send new game object. update current game for both players. alternate p1/p2
-      //
+  const rematch = (playerId, gameId) => {
+    socket.emit("rematch", {playerId:player.playerId, gameId:currentGame.gameId});
   }
 
 
@@ -120,6 +117,18 @@ const [winner, setWinner] = useState(null);
         // : player wins, formally end game and offer play again, any other admin...
     });
 
+    socket.on("rematchResponse", data => {
+      console.log("rematch response received", data);
+      if(data.success){
+        setCurrentGame(data.game);
+        setBoard(data.game.board);
+        setGameOn(true);
+        setGameOver(false);
+        setGames(data.currentGames);
+      }
+
+    })
+
 
     return () => {
         socket.off('enterLobbyResponse');
@@ -129,6 +138,13 @@ const [winner, setWinner] = useState(null);
 
     }
 }, [socket])
+
+// TODO - dont need gameOn and gameOver.  find wht gameOn is doing ansd use gameOver.
+
+// TODO - players online needs a list of players with an actual live connection, not just who has logged in.
+// TODO - update wins on player objects.  add games played?
+// TODO - add DB saving player ids, with wins losses etc
+// TODO - add authentication
 
   return (
     <>
@@ -152,7 +168,11 @@ const [winner, setWinner] = useState(null);
       </div>}
 
       {gameOn && gameOver && 
-        <PlayAgain game={currentGame} onPlayAgain={playAgain}/>}
+        <PlayAgain 
+          game={currentGame} 
+          onPlayAgain={rematch} 
+          playerId={player.playerId} 
+          gameId={currentGame.gameId}/>}
      
        <DisplayPanel gameOver={gameOver} winner={winner}/>
     </>

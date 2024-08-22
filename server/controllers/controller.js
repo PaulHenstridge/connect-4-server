@@ -48,12 +48,32 @@ const controller = (lobby) => {
         return { isGameOver, game };
     }
 
+    const rematch = ((playerId, gameId) => {
+        const player = lobby.findPlayerById(playerId);
+        const game = lobby.findGameById(gameId);
+        game.rematch[player.playerNumber] = true;
+
+        if(game.gameOver && game.rematch[1] && game.rematch[2]){
+            console.log("BOTH PLAYERS WANT TO PLAY AGAIN!!")
+            const newGame = createGame(game.players[1].playerId).game;
+
+            return joinGame(game.players[0].playerId, newGame.gameId);
+        }else{
+            return {
+                success: false,
+                game: game,
+                currentGames: lobby.games
+            }
+        };
+    });
+
     return {
         enterLobby,
         createGame,
         joinGame,
         viewOpenGames,
-        playTurn
+        playTurn,
+        rematch
     };
 };
 

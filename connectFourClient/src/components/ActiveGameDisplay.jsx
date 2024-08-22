@@ -1,6 +1,12 @@
+import { styled} from "styled-components";
+
+const Container = styled.section`
+    border: 2px solid white;
+`
+
 const ActiveGameDisplay = ({games, onJoinGame, playerId}) => {
     console.log('games to gameDisplay', games)
-    return ( <>
+    return ( <Container>
     <h5>Current Active Games</h5>
     {games.map(game => (
         <div key={game.gameId}>
@@ -17,7 +23,7 @@ const ActiveGameDisplay = ({games, onJoinGame, playerId}) => {
 
         </div>
     ))}
-    </> );
+    </Container> );
 }
  
 export default ActiveGameDisplay;
