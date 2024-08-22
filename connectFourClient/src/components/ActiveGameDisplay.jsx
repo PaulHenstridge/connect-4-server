@@ -2,12 +2,18 @@ import { styled} from "styled-components";
 
 const Container = styled.section`
     border: 2px solid white;
+    min-height:25vh;
+    & > h4{
+        background-color:#1b0953;
+        margin: 0;
+        padding:0.5em 0 0.5em 0;
+    }
 `
 
 const ActiveGameDisplay = ({games, onJoinGame, playerId}) => {
     console.log('games to gameDisplay', games)
     return ( <Container>
-    <h5>Current Active Games</h5>
+    <h4> Active Games</h4>
     {games.map(game => (
         <div key={game.gameId}>
             {game.players.length === 2 && (

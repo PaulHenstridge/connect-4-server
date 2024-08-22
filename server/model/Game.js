@@ -43,6 +43,7 @@ export default class Game{
         //  checkfor win
         if(checkWin(this.board, rowIndex, columnIndex, player)){
             console.log(`${player.playerName}, who was player ${player.playerNumber} has won!`)
+            player.wins++;
             this.winner = player;
             this.gameOver = true;
             return this.gameOver;

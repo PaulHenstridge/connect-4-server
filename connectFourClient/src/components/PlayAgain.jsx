@@ -39,7 +39,7 @@ const PlayAgain = ({game, onPlayAgain, playerId, gameId}) => {
     return ( <Container>
 <ResultDisplay pnum={game.winner.playerNumber}>
     <h2>{game.winner.playerName} is the winner!</h2>
-    <p>A xth career win</p>
+    <p>{game.winner.wins} games won</p>
 </ResultDisplay>
 
         <DecisionPanel>
