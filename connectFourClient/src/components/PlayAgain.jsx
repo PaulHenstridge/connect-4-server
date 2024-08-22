@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import Countdown from "./Countdown";
 
 const Container = styled.div`
     background-color:#0307037d;
@@ -43,6 +44,7 @@ const PlayAgain = ({game, onPlayAgain, playerId, gameId, onEndGame}) => {
 </ResultDisplay>
 
         <DecisionPanel>
+            <Countdown onEndGame={onEndGame}/>
             <h3>Play again?</h3>
             <button onClick={() => onPlayAgain(playerId, gameId)}>Yes</button>
             <button onClick={() => onEndGame()} >No</button>

@@ -10,6 +10,8 @@ import socket from './utils/socket'
 import LogIn from './components/LogIn'
 import Lobby from './components/Lobby'
 import PlayAgain from './components/PlayAgain'
+import Countdown from './components/Countdown'
+import FourTiles from './components/FourTiles'
 
 
 function App() {
@@ -164,6 +166,7 @@ function App() {
       <Header />
       <div>{gameOver}</div>
 
+
       {!gameOn && <div>
         { !player &&<LogIn onEnterLobby = {enterLobby}/>}
         {player && <Lobby 
@@ -173,6 +176,8 @@ function App() {
           onJoinGame={joinGame}
           player={player}
         />}
+
+        <FourTiles />
       </div>}
     
       {gameOn && <div> 
@@ -181,7 +186,7 @@ function App() {
       </div>}
 
       {gameOn && gameOver && 
-        <PlayAgain 
+        <PlayAgain
           game={currentGame} 
           onPlayAgain={rematch} 
           playerId={player.playerId} 
