@@ -32,7 +32,7 @@ function App() {
   const [waitingForOpponent, setWaitingforOpponent] = useState(false);
   const [gameOn, setGameOn] = useState(false);
 
-const [winner, setWinner] = useState(null);
+  const [winner, setWinner] = useState(null);
 
   // socket emitting
   const enterLobby = playerName => {
@@ -68,7 +68,14 @@ const [winner, setWinner] = useState(null);
     socket.emit("rematch", {playerId:player.playerId, gameId:currentGame.gameId});
   }
 
+  const endGame = () => {
+    socket.emit("endGame", 
+    // TODO - neeed to send an event to both players, or the other player to end the game on their end
+    )
+    setGameOn(false);
+  }
 
+//
 
   useEffect(() => {
     if(winner !== null){
@@ -164,7 +171,7 @@ const [winner, setWinner] = useState(null);
           players={players} 
           games={games} 
           onJoinGame={joinGame}
-          playerId={player.playerId}
+          player={player}
         />}
       </div>}
     
@@ -178,9 +185,11 @@ const [winner, setWinner] = useState(null);
           game={currentGame} 
           onPlayAgain={rematch} 
           playerId={player.playerId} 
-          gameId={currentGame.gameId}/>}
+          gameId={currentGame.gameId}
+          onEndGame={endGame}
+          />}
      
-       <DisplayPanel gameOver={gameOver} winner={winner}/>
+       <DisplayPanel gameOver={gameOver} winner={winner} />
     </>
   )
 }

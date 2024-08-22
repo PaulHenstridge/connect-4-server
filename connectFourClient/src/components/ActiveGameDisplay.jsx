@@ -22,14 +22,17 @@ const ActiveGameDisplay = ({games, onJoinGame, playerId}) => {
 
             {game.players.length === 1 && (
                 <div>
-                    <p>Play against {game.players[0].playerName}?</p>
-                    <button onClick={() => onJoinGame(playerId, game.gameId)}>Join Game</button> 
+                    { game.players[0].playerId !== playerId ? (<>  
+                        <p>Play against {game.players[0].playerName}?</p>
+                        <button onClick={() => onJoinGame(playerId, game.gameId)}>Join Game</button> </>)
+                        : <p>Waiting for opponent</p>
+                    }
                 </div>
             )}
 
         </div>
     ))}
-    </Container> );
+    </Container> )
 }
  
 export default ActiveGameDisplay;

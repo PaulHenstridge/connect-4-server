@@ -30,14 +30,14 @@ const DecisionPanel = styled.div`
 // TODO - make timer component, pass in function to call on zero
 //      - function to restart game if both players agree
 
-const PlayAgain = ({game, onPlayAgain, playerId, gameId}) => {
+const PlayAgain = ({game, onPlayAgain, playerId, gameId, onEndGame}) => {
 
     // on gameOver a timer begins for both players to choose playAgain
     //  if both layers do not click game is ended
     // else a new game is started
     
     return ( <Container>
-<ResultDisplay pnum={game.winner.playerNumber}>
+<ResultDisplay pnum={game.winner.playerNumber || 1}>
     <h2>{game.winner.playerName} is the winner!</h2>
     <p>{game.winner.wins} games won</p>
 </ResultDisplay>
@@ -45,7 +45,7 @@ const PlayAgain = ({game, onPlayAgain, playerId, gameId}) => {
         <DecisionPanel>
             <h3>Play again?</h3>
             <button onClick={() => onPlayAgain(playerId, gameId)}>Yes</button>
-            <button>No</button>
+            <button onClick={() => onEndGame()} >No</button>
         </DecisionPanel>
       
     

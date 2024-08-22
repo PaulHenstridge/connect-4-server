@@ -15,16 +15,21 @@ const StyledButton = styled.button`
         background-color: green;
         border:black;
         font-size: 1.4rem;
-        padding: 0.7em 1.3em;
+        padding: 0.65em 1.2em;
     }
 `
 
-const Lobby = ({onCreateGame, players, games, onJoinGame, playerId}) => {
+const NameSpan = styled.span`
+    font-size:1.4rem;
+    color: red;
+`
+
+const Lobby = ({onCreateGame, players, games, onJoinGame, player}) => {
 return ( <LobbyContainer>
-    <h4>Welcome to the connect-4 lobby.</h4>
-    <StyledButton onClick={() => onCreateGame(playerId)}>Create New Game</StyledButton>
+    <h4> Hello <NameSpan>{player.playerName}</NameSpan>, welcome to the connect-4 lobby.</h4>
+    <StyledButton onClick={() => onCreateGame(player.playerId)}>Create New Game</StyledButton>
     <ActivePlayerDisplay players={players}/>
-    <ActiveGameDisplay games={games} onJoinGame={onJoinGame} playerId={playerId}/>
+    <ActiveGameDisplay games={games} onJoinGame={onJoinGame} playerId={player.playerId}/>
     </LobbyContainer> );
 }
  
