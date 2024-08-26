@@ -5,16 +5,17 @@ import React, { useState, useEffect } from 'react';
 const FourTilesCOntainer = styled.div`
     width:80vw;
     display:flex;
-    padding:4em 1em;
+    padding:2em 1em;
+    border-top:2em;
     justify-content:space-around;
-    background-color: ${ props => props.win && 'yellow'}
 `
 
 const Tile = styled.div`
     width:10vw;
     aspect-ratio:1;
     border-radius:50%;
-    background-color: ${ props => props.color === 1 ? 'red' : 'blue'};
+    background-color: ${ ({color}) => color === 1 ? 'red' : 'blue'};
+    box-shadow: ${ ({ win}) => win ? '#e2d19a 0 0 8px 5px;' : 'none'};
 `
 
 const FourTiles = () => {
@@ -37,14 +38,14 @@ const FourTiles = () => {
         newTileColors[0] === newTileColors[2] &&
         newTileColors[0] === newTileColors[3]
       );
-    }, 1000); // <-- adjust time here
+    }, 2500); // <-- adjust time here
 
     return () => clearInterval(interval);
   }, []);
 
     return ( 
-        <FourTilesCOntainer win={winning}>
-        {tileColors.map((tile, index) => <Tile color={tileColors[index]}/>)}
+        <FourTilesCOntainer >
+        {tileColors.map((tile, index) => <Tile color={tileColors[index]} win={winning}/>)}
     </FourTilesCOntainer> );
 }
  

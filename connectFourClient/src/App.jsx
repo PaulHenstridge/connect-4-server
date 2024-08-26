@@ -4,7 +4,7 @@ import './App.css'
 import Board from './components/Board'
 import ColumnButtons from './components/ColumnButtons'
 import DisplayPanel from './components/DisplayPanel'
-import Header from './components/header'
+import Header from './components/Header'
 
 import socket from './utils/socket'
 import LogIn from './components/LogIn'
@@ -163,9 +163,7 @@ function App() {
 
   return (
     <>
-      <Header />
-      <div>{gameOver}</div>
-
+      <Header name={player && player.playerName ? player.playerName : "Please sign in"}/>
 
       {!gameOn && <div>
         { !player &&<LogIn onEnterLobby = {enterLobby}/>}
