@@ -8,7 +8,7 @@ const controller = (lobby) => {
         return {
             success: newPlayer instanceof Player,
             newPlayer: newPlayer,
-            players: lobby.players,
+            players: lobby.getAllActivePlayers(),
             currentGames: lobby.games
         } 
     };

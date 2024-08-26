@@ -175,7 +175,7 @@ function App() {
           player={player}
         />}
 
-        <FourTiles />
+        {/* <FourTiles /> */}
       </div>}
     
       {gameOn && <div> 

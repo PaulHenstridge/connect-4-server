@@ -3,14 +3,14 @@ import Game from "./Game.js";
 
 export default class Lobby {
     constructor(){
-        this.players = [];
+        this.activePlayers = new Map();
         this.games = [];
     }
 
-    enterLobby(name){
+    enterLobby(name, connectionId){
         const player = new Player(name);
         console.log('enter lobby player created', player)
-        this.players.push(player);
+        this.activePlayers.set(player.playerId, { player, connectionId})
         return player;
     }
 
@@ -47,6 +47,23 @@ export default class Lobby {
 
     findPlayerById(id){
         console.log('searched id in findPlayerById', id)
-        return this.players.find(player => player.playerId === id)
+        const entry = this.activePlayers.get(id);
+        return entry ? entry.player : undefined;
     }
+
+
+    findConnectionIdByPlayerId(id) {
+        const entry = this.activePlayers.get(id);
+        return entry ? entry.connectionId : undefined;
+    }
+
+    removePlayerById(id) {
+        console.log('removing player with id', id);
+        this.activePlayers.delete(id);
+    }
+    getAllActivePlayers() {
+        // Map entries to extract only the player objects
+        return Array.from(this.activePlayers.values()).map(entry => entry.player);
+    }
+
 }
