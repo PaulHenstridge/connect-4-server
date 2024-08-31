@@ -10,11 +10,24 @@ const socketHandlers = (io, controller) => {
     // Lobby
         // Enter lobby - (name),
         socket.on('enterLobby', (playerName, connectionId) => {
-            const response = controller.enterLobby(playerName, connectionId);
-            console.log("enterLobby event response ", response)
-            socket.emit("newPlayerObject", response.newPlayer);
-            io.emit('enterLobbyResponse', response);
+            if(socket.connected){
+                const response = controller.enterLobby(playerName, connectionId);
+                console.log("enterLobby event response ", response)
+                socket.emit("newPlayerObject", response.newPlayer);
+                io.emit('enterLobbyResponse', response);
+            } else {
+                console.log("Connection Failed - socket not connected")
+            }
         });
+
+        // Handle socket disconnect
+        socket.on('disconnect', () => {
+            console.log('user disconnected', socket.id)
+            const response = controller.removeFromLobby(socket.id)
+            console.log('exitLobby event response', response)
+            io.emit('exitLobbyResponse')
+        })
+
         // create game - (playerId),
         socket.on('createGame', (playerId) => {
             console.log('###data in createGame socketHandler ', playerId)

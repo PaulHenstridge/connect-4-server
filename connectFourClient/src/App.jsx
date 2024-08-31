@@ -116,8 +116,15 @@ function App() {
           console.log(game)
           // show error message in DOM
         }
-
     });
+
+    socket.on('exitLobbyresponse', data => {
+      console.log('exitLobby response received', data)
+      if (data.success){
+        setPlayers(data.activePlayers)
+        //TODO - add a message - playername has disconnected
+      }
+    })
     
     socket.on('playTurnResponse', data => {
         console.log("playTurn response received");

@@ -65,5 +65,15 @@ export default class Lobby {
         // Map entries to extract only the player objects
         return Array.from(this.activePlayers.values()).map(entry => entry.player);
     }
-
+    removePlayerByConnectionId(socketId) {
+        for (const [playerId, entry] of this.activePlayers.entries()){
+            if (entry.connectionId === socketId){
+                this.activePlayers.delete(playerId);
+                console.log(`player ${playerId} removed form lobby`)
+                return true;
+            }
+        }
+        console.log('No player found with that connection ID');
+        return false;
+    }
 }

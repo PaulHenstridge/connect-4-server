@@ -13,6 +13,16 @@ const controller = (lobby) => {
         } 
     };
 
+    const removeFromLobby = socketId => {
+        return {
+            success: lobby.removePlayerByConnectionId(socketId),
+            activePlayers: lobby.getAllActivePlayers()
+        }
+    }
+
+    // TODO - set up periodic pings to check for disconnects.  above only works for a deliverate disconnect.
+    // create a quit buttin to use the above, and pings to check for drop outs.
+
     const createGame = (playerId) => {
         const player = lobby.findPlayerById(playerId)
         console.log("player found in create game-> ", player)
@@ -69,6 +79,7 @@ const controller = (lobby) => {
 
     return {
         enterLobby,
+        removeFromLobby,
         createGame,
         joinGame,
         viewOpenGames,
