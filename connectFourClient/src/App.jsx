@@ -118,7 +118,7 @@ function App() {
         }
     });
 
-    socket.on('exitLobbyresponse', data => {
+    socket.on('exitLobbyResponse', data => {
       console.log('exitLobby response received', data)
       if (data.success){
         setPlayers(data.activePlayers)

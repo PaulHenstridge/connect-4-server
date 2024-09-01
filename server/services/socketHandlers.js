@@ -9,9 +9,9 @@ const socketHandlers = (io, controller) => {
 // events
     // Lobby
         // Enter lobby - (name),
-        socket.on('enterLobby', (playerName, connectionId) => {
+        socket.on('enterLobby', (playerName) => {
             if(socket.connected){
-                const response = controller.enterLobby(playerName, connectionId);
+                const response = controller.enterLobby(playerName, socket.id);
                 console.log("enterLobby event response ", response)
                 socket.emit("newPlayerObject", response.newPlayer);
                 io.emit('enterLobbyResponse', response);
@@ -25,7 +25,7 @@ const socketHandlers = (io, controller) => {
             console.log('user disconnected', socket.id)
             const response = controller.removeFromLobby(socket.id)
             console.log('exitLobby event response', response)
-            io.emit('exitLobbyResponse')
+            io.emit('exitLobbyResponse', response)
         })
 
         // create game - (playerId),

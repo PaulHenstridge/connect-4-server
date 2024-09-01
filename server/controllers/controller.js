@@ -3,8 +3,8 @@ import Player from '../model/Player.js';
 
 const controller = (lobby) => {
 
-    const enterLobby = (name) => {
-        const newPlayer = lobby.enterLobby(name)
+    const enterLobby = (name, socketId) => {
+        const newPlayer = lobby.enterLobby(name, socketId)
         return {
             success: newPlayer instanceof Player,
             newPlayer: newPlayer,

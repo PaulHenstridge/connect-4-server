@@ -66,7 +66,9 @@ export default class Lobby {
         return Array.from(this.activePlayers.values()).map(entry => entry.player);
     }
     removePlayerByConnectionId(socketId) {
+        console.log("active players", this.activePlayers)
         for (const [playerId, entry] of this.activePlayers.entries()){
+            console.log("======",socketId, entry.connectionId)
             if (entry.connectionId === socketId){
                 this.activePlayers.delete(playerId);
                 console.log(`player ${playerId} removed form lobby`)
