@@ -74,7 +74,17 @@ function App() {
     socket.emit("endGame", 
     // TODO - neeed to send an event to both players, or the other player to end the game on their end
     )
-    setGameOn(false);
+    setGameOn(false)
+    setGameOver(false)
+    setCurrentGame({})
+    setBoard([
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0]
+    ])
   }
 
 //

@@ -45,6 +45,10 @@ export default class Lobby {
         return this.games.find(game => game.gameId === gameId);
     }
 
+    updateGame(gameId){
+        
+    }
+
     findPlayerById(id){
         console.log('searched id in findPlayerById', id)
         const entry = this.activePlayers.get(id);

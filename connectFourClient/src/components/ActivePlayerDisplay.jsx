@@ -10,10 +10,18 @@ const Container = styled.section`
         padding:0.5em 0 0.5em 0;
     }
 `
+
+const PlayerBox = styled.div`
+    background-color:#70909975;
+    display:flex;
+    justify-content: space-evenly;
+    padding: 0.4em 0 0.4em 0;
+    border: 1px solid black;
+`
 const ActivePlayerDisplay = ({players}) => {
     return ( <Container>
     <h4>Active Players</h4>
-    {players.map(player => <p key={player.playerId} >{player.playerName}  {player.wins} wins</p>)}
+    {players.map(player => <PlayerBox key={player.playerId} > <span>{player.playerName}</span>  <span>{player.wins} wins</span> </PlayerBox>)}
     </Container> );
 }
  
