@@ -5,6 +5,7 @@ export default class Player{
         this.playerName = name;
         this.playerNumber = null;
         this.playerId = randomBytes(16).toString('hex');
+        this.gamesPlayed = 0;
         this.wins = 0;
     }
 

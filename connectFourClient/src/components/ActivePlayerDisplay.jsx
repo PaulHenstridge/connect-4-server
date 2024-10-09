@@ -22,7 +22,11 @@ const ActivePlayerDisplay = ({players}) => {
     console.log('###players array to active playerdisplay', players)
     return ( <Container>
     <h4>Active Players</h4>
-    {players.map(player => <PlayerBox key={player.playerId} > <span>{player.playerName}</span>  <span>{player.wins} wins</span> </PlayerBox>)}
+    {players.map(player => <PlayerBox key={player.playerId} > 
+        <span>{player.playerName}</span>
+        <span>{player.gamesPlayed} played</span>
+        <span>{player.wins} wins</span>
+       </PlayerBox>)}
     </Container> );
 }
  

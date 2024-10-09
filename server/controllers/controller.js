@@ -20,13 +20,11 @@ const controller = (lobby) => {
         }
     }
 
-    // TODO - set up periodic pings to check for disconnects.  above only works for a deliverate disconnect.
+    // TODO - set up periodic pings to check for disconnects.  above only works for a deliberate disconnect.
     // create a quit buttin to use the above, and pings to check for drop outs.
 
     const createGame = (playerId) => {
         const player = lobby.findPlayerById(playerId)
-        console.log("player found in create game-> ", player)
-        console.log('lobby',lobby)
         const newGame = lobby.createGame(player)
         console.log("new game: ", newGame)
         return {

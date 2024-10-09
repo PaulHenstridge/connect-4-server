@@ -12,6 +12,7 @@ import Lobby from './components/Lobby'
 import PlayAgain from './components/PlayAgain'
 import Countdown from './components/Countdown'
 import FourTiles from './components/FourTiles'
+import ChatWindow from './components/ChatWindow'
 
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
   const [gameOn, setGameOn] = useState(false);
 
   const [winner, setWinner] = useState(null);
+
+  const [chatMessages, setChatMessages] = useState([]);
 
   // socket emitting
   const enterLobby = playerName => {
@@ -64,6 +67,16 @@ function App() {
     setGameOver(true); //unneeded?
     setWinner(winner);
   }
+
+  const sendMessage = (messageText) => {
+    console.log('sendMessage called!')
+    socket.emit('roomChatMsg', {
+        messageText:messageText,
+        gameId: currentGame.gameId
+    })
+  }
+
+
 
 
   const rematch = (playerId, gameId) => {
@@ -162,12 +175,18 @@ function App() {
 
     })
 
+    socket.on("roomMessage", message => {
+      console.log('room message received')
+      setChatMessages(prevMessages => [...prevMessages, message])
+    })
+
 
     return () => {
         socket.off('enterLobbyResponse');
         socket.off('createGameResponse');
         socket.off('joinGameResponse');
         socket.off('playTurnResponse');
+        socket.off('rematchResponse');
 
     }
 }, [socket])
@@ -198,6 +217,7 @@ function App() {
       {gameOn && <div> 
         <ColumnButtons boardArr={board} onColumnSelect={columnSelect}/>
         <Board boardArr={board}/>
+        <ChatWindow onSendMessage={sendMessage} chatMessages={chatMessages}/>
       </div>}
 
       {gameOn && gameOver && 

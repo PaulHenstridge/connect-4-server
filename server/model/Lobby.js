@@ -34,6 +34,10 @@ export default class Lobby {
 
         game.players.push(player)
         player.playerNumber = game.players.length;
+        for(let player of game.players){
+            player.gamesPlayed++
+            
+        }
         return game;
     }
 

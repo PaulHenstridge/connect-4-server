@@ -1,6 +1,5 @@
 
 const socketHandlers = (io, controller) => {
-    console.log('sockethandlers runs')
 
     io.on('connection', (socket) => {
         console.log('a user connected', socket.id)
@@ -30,15 +29,15 @@ const socketHandlers = (io, controller) => {
 
         // create game - (playerId),
         socket.on('createGame', (playerId) => {
-            console.log('###data in createGame socketHandler ', playerId)
             const response = controller.createGame(playerId)
-            console.log('response in sockethandler(19): ', response)
+            if(response.success) socket.join(response.game.gameId)
             io.emit('createGameResponse', response);
         });
         //  join game - (playerId, gameId),
         socket.on('joinGame', (data) => {
             const response = controller.joinGame(data.playerId, data.gameId)
             console.log("joinGame event received");
+            if(response.success) socket.join(data.gameId)
             io.emit('joinGameResponse', response);
         });
         // view open games
@@ -70,13 +69,9 @@ const socketHandlers = (io, controller) => {
 
 
         // chat events
-        socket.on('message', (data) => {
-            console.log("Message event received")
-        });
-
-
-        socket.on('quit', () => {
-            console.log('user quat')
+        socket.on('roomChatMsg', (data) => {
+            console.log("Message event received", data)
+            socket.to(data.gameId).emit('roomMessage', data.messageText)
         });
     });
 };
