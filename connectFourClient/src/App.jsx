@@ -137,10 +137,11 @@ function App() {
     })
     
     socket.on('playTurnResponse', data => {
-        console.log("playTurn response received");
+        console.log("playTurn response received", data);
         setCurrentGame(data.game);
         setBoard(data.game.board);
         setGameOver(data.isGameOver);
+        setPlayers(data.newActivePlayers);
         if(data.isGameOver){
           console.log('gameOver playturn response', data)
         }
@@ -171,9 +172,8 @@ function App() {
     }
 }, [socket])
 
-// TODO - dont need gameOn and gameOver.  find wht gameOn is doing ansd use gameOver.
 
-// TODO - players online needs a list of players with an actual live connection, not just who has logged in.
+// done - players online needs a list of players with an actual live connection, not just who has logged in.
 // TODO - update wins on player objects.  add games played?
 // TODO - add DB saving player ids, with wins losses etc
 // TODO - add authentication

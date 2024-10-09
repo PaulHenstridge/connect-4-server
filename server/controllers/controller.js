@@ -52,10 +52,15 @@ const controller = (lobby) => {
     };
 
     const playTurn = (playerId, columnIndex, gameId) => {
+        console.log("playTurn called")
         const player = lobby.findPlayerById(playerId);
         const game = lobby.findGameById(gameId);
         const isGameOver = game.playTurn(player, columnIndex);
-        return { isGameOver, game };
+        // if(isGameOver) player.wins++
+        const newActivePlayers = lobby.getAllActivePlayers()
+        console.log("newActivePlayers passed from playTurn after a win", newActivePlayers)
+
+        return { isGameOver, game, newActivePlayers };
     }
 
     const rematch = ((playerId, gameId) => {

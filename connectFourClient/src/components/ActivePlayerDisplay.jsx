@@ -19,6 +19,7 @@ const PlayerBox = styled.div`
     border: 1px solid black;
 `
 const ActivePlayerDisplay = ({players}) => {
+    console.log('###players array to active playerdisplay', players)
     return ( <Container>
     <h4>Active Players</h4>
     {players.map(player => <PlayerBox key={player.playerId} > <span>{player.playerName}</span>  <span>{player.wins} wins</span> </PlayerBox>)}
