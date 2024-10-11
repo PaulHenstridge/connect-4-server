@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 
 import ActiveGameDisplay from "./ActiveGameDisplay";
 import ActivePlayerDisplay from "./ActivePlayerDisplay";
+import Friends from "./Friends";
 
 const LobbyContainer = styled.section`
     width:80vw;
@@ -30,6 +31,7 @@ return ( <LobbyContainer>
     <StyledButton onClick={() => onCreateGame(player.playerId)}>Create New Game</StyledButton>
     <ActivePlayerDisplay players={players}/>
     <ActiveGameDisplay games={games} onJoinGame={onJoinGame} playerId={player.playerId}/>
+    <Friends />
     </LobbyContainer> );
 }
  

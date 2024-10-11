@@ -70,10 +70,17 @@ function App() {
 
   const sendMessage = (messageText) => {
     console.log('sendMessage called!')
-    setChatMessages(prevMessages => [...prevMessages, messageText])
+    const messageObj = {
+      messageText: messageText,
+      senderId: player.Id,
+      senderName: player.playerName
+    }
+    setChatMessages(prevMessages => [...prevMessages, messageObj])
     socket.emit('roomChatMsg', {
         messageText:messageText,
-        gameId: currentGame.gameId
+        gameId: currentGame.gameId,
+        senderId: player.playerId,
+        senderName: player.playerName
     })
   }
 
@@ -176,8 +183,9 @@ function App() {
 
     })
 
-    socket.on("roomMessage", message => {
+    socket.on("roomMessage", (message) => {
       console.log('room message received', message)
+
       setChatMessages(prevMessages => [...prevMessages, message])
     })
 

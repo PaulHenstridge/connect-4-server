@@ -69,9 +69,9 @@ const socketHandlers = (io, controller) => {
 
 
         // chat events
-        socket.on('roomChatMsg', (data) => {
-            console.log("Message event received", data)
-            socket.to(data.gameId).emit('roomMessage', data.messageText)
+        socket.on('roomChatMsg', ({messageText, gameId, senderId, senderName}) => {
+            console.log("Message event received",)
+            socket.to(gameId).emit('roomMessage', {messageText, senderId, senderName})
         });
     });
 };
