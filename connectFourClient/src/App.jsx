@@ -70,6 +70,7 @@ function App() {
 
   const sendMessage = (messageText) => {
     console.log('sendMessage called!')
+    setChatMessages(prevMessages => [...prevMessages, messageText])
     socket.emit('roomChatMsg', {
         messageText:messageText,
         gameId: currentGame.gameId
@@ -176,7 +177,7 @@ function App() {
     })
 
     socket.on("roomMessage", message => {
-      console.log('room message received')
+      console.log('room message received', message)
       setChatMessages(prevMessages => [...prevMessages, message])
     })
 
@@ -187,6 +188,7 @@ function App() {
         socket.off('joinGameResponse');
         socket.off('playTurnResponse');
         socket.off('rematchResponse');
+        socket.off('roomMessage');
 
     }
 }, [socket])

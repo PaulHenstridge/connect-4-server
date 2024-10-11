@@ -6,6 +6,8 @@ const ChatWindow = ({onSendMessage, chatMessages}) => {
 
     const [messageText, setMessageText] = useState('')
 
+    console.log("chat Messages into ChatWIndow",chatMessages)
+
     return ( <>
     <section>
     {chatMessages.map(message => {
