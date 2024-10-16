@@ -72,7 +72,7 @@ function App() {
     console.log('sendMessage called!')
     const messageObj = {
       messageText: messageText,
-      senderId: player.Id,
+      senderId: player.playerId,
       senderName: player.playerName
     }
     setChatMessages(prevMessages => [...prevMessages, messageObj])
@@ -227,7 +227,7 @@ function App() {
       {gameOn && <div> 
         <ColumnButtons boardArr={board} onColumnSelect={columnSelect}/>
         <Board boardArr={board}/>
-        <ChatWindow onSendMessage={sendMessage} chatMessages={chatMessages}/>
+        <ChatWindow onSendMessage={sendMessage} chatMessages={chatMessages} playerId={player.playerId}/>
       </div>}
 
       {gameOn && gameOver && 
