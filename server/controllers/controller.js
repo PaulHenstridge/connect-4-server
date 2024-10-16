@@ -80,6 +80,15 @@ const controller = (lobby) => {
         };
     });
 
+    const addFriend = (playerId, friendId) => {
+        const player = lobby.findPlayerById(playerId);
+        const friend = lobby.findPlayerById(friendId);
+
+        const newFriendList = player.addFriend(friend)
+
+        return newFriendList
+    }
+
     return {
         enterLobby,
         removeFromLobby,
@@ -87,7 +96,8 @@ const controller = (lobby) => {
         joinGame,
         viewOpenGames,
         playTurn,
-        rematch
+        rematch,
+        addFriend
     };
 };
 

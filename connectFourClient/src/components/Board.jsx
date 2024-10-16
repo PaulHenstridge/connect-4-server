@@ -3,18 +3,18 @@ import Row from "./Row";
 import { styled } from "styled-components";
 
 
-const BoardContainer = styled.div`
+const BoardContainer = styled.section`
     width:80vw;
     border:2px solid white;
     background-color: #191818;
 
 `
 
-const Board = ({boardArr}) => {
+const Board = ({boardArr, onColumnSelect}) => {
 
 
     return (<BoardContainer>
-        {boardArr.map((rowArr, idx) => <Row rowArr={rowArr} key={idx} />)}  
+        {boardArr.map((rowArr, idx) => <Row rowArr={rowArr} key={idx} onColumnSelect={onColumnSelect}/>)}  
     </BoardContainer>
     )
 }

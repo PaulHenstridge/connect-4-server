@@ -7,9 +7,9 @@ const RowContainer = styled.div`
     padding: 1em;
 `
 
-const Row = ({rowArr}) => {
+const Row = ({rowArr, onColumnSelect}) => {
     return ( <RowContainer>
-    {rowArr.map((slotVal, idx) => <Slot value={slotVal} key={idx}/>)}
+    {rowArr.map((slotVal, idx) => <Slot value={slotVal} column={idx} onColumnSelect={onColumnSelect} key={idx}/>)}
     </RowContainer> );
 }
  

@@ -14,6 +14,13 @@ import Countdown from './components/Countdown'
 import FourTiles from './components/FourTiles'
 import ChatWindow from './components/ChatWindow'
 
+import styled from 'styled-components'
+
+const GameOn = styled.div`
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+`
 
 function App() {
   const [board, setBoard] = useState([
@@ -36,6 +43,8 @@ function App() {
   const [gameOn, setGameOn] = useState(false);
 
   const [winner, setWinner] = useState(null);
+
+  const [friends, setFriends] = useState([]);
 
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -66,6 +75,13 @@ function App() {
   const declareWinner = (winner) => {
     setGameOver(true); //unneeded?
     setWinner(winner);
+  }
+
+  const addFriend = friendId => {
+    socket.emit('addFriend', {
+      friendId:friendId,
+      playerId: player.playerId
+    })
   }
 
   const sendMessage = (messageText) => {
@@ -180,6 +196,11 @@ function App() {
         setGameOver(false);
         setGames(data.currentGames);
       }
+    })
+    
+    socket.on('addFriendResponse', (friends) => {
+      console.log("add friend response received", friends);
+      setFriends(friends)
 
     })
 
@@ -219,16 +240,18 @@ function App() {
           games={games} 
           onJoinGame={joinGame}
           player={player}
+          friends={friends}
+          onAddFriend={addFriend}
         />}
 
         {/* <FourTiles /> */}
       </div>}
     
-      {gameOn && <div> 
-        <ColumnButtons boardArr={board} onColumnSelect={columnSelect}/>
-        <Board boardArr={board}/>
+      {gameOn && <GameOn> 
+        {/* <ColumnButtons boardArr={board} onColumnSelect={columnSelect}/> */}
+        <Board boardArr={board} onColumnSelect={columnSelect}/>
         <ChatWindow onSendMessage={sendMessage} chatMessages={chatMessages} playerId={player.playerId}/>
-      </div>}
+      </GameOn>}
 
       {gameOn && gameOver && 
         <PlayAgain

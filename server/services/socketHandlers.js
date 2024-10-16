@@ -66,6 +66,13 @@ const socketHandlers = (io, controller) => {
             console.log("quit event received")
         });
 
+        socket.on('addFriend', data => {
+            console.log("add friend event received", data)
+            const response = controller.addFriend(data.playerId, data.friendId)
+            console.log('response back from add friend', response)
+            socket.emit('addFriendResponse', response)
+        })
+
 
 
         // chat events

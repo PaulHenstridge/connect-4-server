@@ -25,13 +25,13 @@ const NameSpan = styled.span`
     color: red;
 `
 
-const Lobby = ({onCreateGame, players, games, onJoinGame, player}) => {
+const Lobby = ({onCreateGame, players, games, onJoinGame, player, friends, onAddFriend}) => {
 return ( <LobbyContainer>
     <h4> Hello <NameSpan>{player.playerName}</NameSpan>, welcome to the connect-4 lobby.</h4>
     <StyledButton onClick={() => onCreateGame(player.playerId)}>Create New Game</StyledButton>
-    <ActivePlayerDisplay players={players}/>
+    <ActivePlayerDisplay players={players} onAddFriend={onAddFriend} />
     <ActiveGameDisplay games={games} onJoinGame={onJoinGame} playerId={player.playerId}/>
-    <Friends />
+    <Friends friends={friends}/>
     </LobbyContainer> );
 }
  

@@ -18,7 +18,7 @@ const PlayerBox = styled.div`
     padding: 0.4em 0 0.4em 0;
     border: 1px solid black;
 `
-const ActivePlayerDisplay = ({players}) => {
+const ActivePlayerDisplay = ({players, onAddFriend}) => {
     console.log('###players array to active playerdisplay', players)
     return ( <Container>
     <h4>Active Players</h4>
@@ -26,6 +26,7 @@ const ActivePlayerDisplay = ({players}) => {
         <span>{player.playerName}</span>
         <span>{player.gamesPlayed} played</span>
         <span>{player.wins} wins</span>
+        <button onClick={()=> onAddFriend(player.playerId)}>Add Friend</button>
        </PlayerBox>)}
     </Container> );
 }

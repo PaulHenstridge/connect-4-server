@@ -7,6 +7,7 @@ const Container = styled.section`
     margin-top:1em;
     background-color:#647c9549;
     padding: 1em;
+    width:80vw;
 `
 
 const ChatDialog = styled.div`

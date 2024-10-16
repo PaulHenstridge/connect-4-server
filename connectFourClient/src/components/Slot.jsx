@@ -10,9 +10,9 @@ const SlotBox = styled.div`
     
 `
 
-const Slot = ({value}) => {
+const Slot = ({value, column, onColumnSelect}) => {
     return ( <>
-    <SlotBox value={value}></SlotBox>
+    <SlotBox value={value} onClick={()=> onColumnSelect(column)}></SlotBox>
     </> );
 }
  
