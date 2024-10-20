@@ -198,10 +198,16 @@ function App() {
       }
     })
     
+    // make this updateFriendResponse and use for adding and removing, and also to keep list up to date!
+    // adjust on b/e
     socket.on('addFriendResponse', (friends) => {
       console.log("add friend response received", friends);
-      setFriends(friends)
-
+      const friendsWithStatus = friends.map(friend => {
+        console.log('ids%%%%%',friend.playerName, friend.playerId, players)
+        const isActive = players.some(player => player.playerId === friend.playerId)
+        return { ...friend, isActive }
+      })
+      setFriends(friendsWithStatus)
     })
 
     socket.on("roomMessage", (message) => {

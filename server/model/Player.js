@@ -7,12 +7,12 @@ export default class Player{
         this.playerId = randomBytes(16).toString('hex');
         this.gamesPlayed = 0;
         this.wins = 0;
-        this.friends = [];
+        this.friendIds = [];
     }
 
-    addFriend(player){
-        this.friends.push(player)
-        return this.friends
+    addFriend(playerId){
+        this.friendIds.push(playerId)
+        return this.friendIds
     }
 
     quitGame(){

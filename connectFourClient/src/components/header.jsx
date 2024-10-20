@@ -6,7 +6,7 @@ const StyledH1 = styled.h1`
 
 const Header = ({name}) => {
     return ( <>
-    <StyledH1>Connect-4</StyledH1>
+    <StyledH1>Four-Chain</StyledH1>
     {name && <p> {name}</p>}
     </> );
 }

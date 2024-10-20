@@ -14,7 +14,7 @@ const GameBox = styled.div`
     background-color: ${({status}) => status === "available" ? "green" : status==="waitiing" ? "blue" : status = "inPlay" ? "brown" : "grey"};
 `
 
-const ActiveGameDisplay = ({games, onJoinGame, playerId}) => {
+const ActiveGameDisplay = ({games, onJoinGame, myPlayerId}) => {
     console.log('games to gameDisplay', games)
 
 
@@ -32,8 +32,8 @@ const ActiveGameDisplay = ({games, onJoinGame, playerId}) => {
 
             {game.players.length === 1 && (
                 <div>
-                    {!game.gameOver && game.players[0].playerId !== playerId ?   
-                        <GameBox status="available">Play against {game.players[0].playerName}?  <button onClick={() => onJoinGame(playerId, game.gameId)}>Join Game</button> </GameBox>
+                    {!game.gameOver && game.players[0].myPlayerId !== playerId ?   
+                        <GameBox status="available">Play against {game.players[0].playerName}?  <button onClick={() => onJoinGame(myPlayerId, game.gameId)}>Join Game</button> </GameBox>
                         : <GameBox status="waiting">Waiting for opponent</GameBox>
                     }
                 </div>
