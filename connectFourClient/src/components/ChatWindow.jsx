@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components'
 
 
 const Container = styled.section`
-    border: 2px solid blue;
+    border: 2px solid aliceblue;
     margin-top:1em;
     background-color:#647c9549;
     padding: 1em;
     width:30%;
-    min-height:419px;
+    height:419px;
     margin:2em;
     box-sizing:border-box;
     display: flex;
@@ -19,7 +19,7 @@ const Container = styled.section`
 const ChatDialog = styled.div`
     display:flex;
     flex-direction: column;
-    height:25vh;
+    flex-grow:1;
     overflow-y:auto;
     padding: 0 2em;
 `
@@ -34,6 +34,8 @@ const UserMessage = styled.div`
     padding:0.3em 0.9em;
     margin-bottom:0.6em;
     max-width: 75%;
+    background-color: #0f181f6d
+
 `
 const OppMessage = styled.div`
     color: #0a0e4a;
@@ -44,6 +46,7 @@ const OppMessage = styled.div`
     padding:0.3em 0.9em;
     margin-bottom:0.6em;
     max-width: 75%;
+    background-color: #7c848b6e
 
 `
 
@@ -57,10 +60,18 @@ const ChatWindow = ({onSendMessage, chatMessages, playerId}) => {
 
     const [messageText, setMessageText] = useState('')
 
-    console.log("chat Messages into ChatWIndow",chatMessages)
+    const chatRef = useRef(null)
+
+    useEffect( () => {
+        if(chatRef.current){
+            chatRef.current.scrollTop = chatRef.current.scrollHeight
+        }
+    }, [chatMessages])
+
+
 
     return ( <Container>
-    <ChatDialog>
+    <ChatDialog ref={chatRef}>
     {chatMessages.map((message, i) => {
         return message.senderId === playerId ? (
          <UserMessage key={i}> You: {message.messageText}</UserMessage>

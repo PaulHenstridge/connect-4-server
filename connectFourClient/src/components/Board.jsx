@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 
 const BoardContainer = styled.section`
     width:80vw;
-    border:2px solid white;
+    border:2px solid aliceblue;
     background-color: #191818;
 
 `
