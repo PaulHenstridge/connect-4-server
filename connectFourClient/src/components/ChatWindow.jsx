@@ -11,6 +11,9 @@ const Container = styled.section`
     min-height:419px;
     margin:2em;
     box-sizing:border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
 `
 
 const ChatDialog = styled.div`
@@ -63,13 +66,17 @@ const ChatWindow = ({onSendMessage, chatMessages, playerId}) => {
          <UserMessage key={i}> You: {message.messageText}</UserMessage>
          ):(<OppMessage key={i}>{message.senderName}:{message.messageText}</OppMessage>)
     })}
-
     </ChatDialog>
-    <Input value={messageText} onChange={e => setMessageText(e.target.value)}/>
-    <button onClick={() => {
-        onSendMessage(messageText)
-        setMessageText('')
-        }}>Send</button>
+    <div>
+        <Input value={messageText} onChange={e => {
+            e.preventDefault()
+            setMessageText(e.target.value)}}/>
+        <button onClick={() => {
+            onSendMessage(messageText)
+            setMessageText('')
+            }}>Send</button>
+    </div>
+
     </Container> );
 }
  

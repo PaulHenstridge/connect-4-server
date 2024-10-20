@@ -14,12 +14,21 @@ const FriendsContainer = styled.div`
         align-self:flex-start;
     }
 `
+const Ul = styled.ul`
+    padding-inline-start:0;
+`
 
 const Friend = styled.li`
     display:flex;
     flex-direction: column;
     border: 1px solid aliceblue;
-    margin-bottom:1em;
+    margin:1em;
+    background-color:#7036a66b;
+
+    & > button {
+        width: 50%;
+        margin:0.4em auto;
+    }
 
 `
 
@@ -40,11 +49,11 @@ const Friends = ({friends}) => {
     console.log('friends passed to Friend component:', friends)
     return ( <FriendsContainer>
         <h4>Friends</h4>
-        <ul>
+        <Ul>
              { friends.map(friend => {
-            return <Friend key={friend.playerId}><p>{friend.playerName}</p> <span>active:{friend.isActive && 'True!'} </span><Button>Challenge {friend.playerName} </Button> </Friend>
+            return <Friend key={friend.playerId}><span>{friend.playerName}</span> <span>active:{friend.isActive && 'True!'} </span><Button>Challenge {friend.playerName} </Button> </Friend>
         })}
-       </ul>
+       </Ul>
     </FriendsContainer> );
 }
  

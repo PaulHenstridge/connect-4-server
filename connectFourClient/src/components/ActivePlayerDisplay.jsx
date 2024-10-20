@@ -15,8 +15,9 @@ const PlayerBox = styled.div`
     background-color:#70909975;
     display:flex;
     justify-content: space-evenly;
-    padding: 0.4em 0 0.4em 0;
+    padding: 0.4rem;
     border: 1px solid black;
+    margin: 0.4rem;
 `
 const ActivePlayerDisplay = ({players, onAddFriend, myPlayerId}) => {
     console.log('###players array to active playerdisplay', players)
