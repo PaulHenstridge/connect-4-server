@@ -7,7 +7,10 @@ const Container = styled.section`
     margin-top:1em;
     background-color:#647c9549;
     padding: 1em;
-    width:80vw;
+    width:30%;
+    min-height:419px;
+    margin:2em;
+    box-sizing:border-box;
 `
 
 const ChatDialog = styled.div`

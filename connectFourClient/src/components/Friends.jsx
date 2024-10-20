@@ -1,9 +1,18 @@
 import styled from 'styled-components'
 
 const FriendsContainer = styled.div`
-    display:flex;
-    flex-direction: column;
-    padding: 4em;
+    /* display:flex;
+    flex-direction: column; */
+    /* padding: 4em; */
+    border: 2px solid aliceblue;
+    margin: 2em;
+    width:30vw;
+    & > h4{
+        background-color:#1b0953;
+        margin: 0;
+        padding:0.5em 0 0.5em 0;
+        align-self:flex-start;
+    }
 `
 
 const Friend = styled.li`
@@ -30,7 +39,7 @@ const Friends = ({friends}) => {
 
     console.log('friends passed to Friend component:', friends)
     return ( <FriendsContainer>
-        <h1>Friends</h1>
+        <h4>Friends</h4>
         <ul>
              { friends.map(friend => {
             return <Friend key={friend.playerId}><p>{friend.playerName}</p> <span>active:{friend.isActive && 'True!'} </span><Button>Challenge {friend.playerName} </Button> </Friend>

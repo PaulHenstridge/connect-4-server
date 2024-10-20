@@ -3,7 +3,7 @@ import { styled} from "styled-components";
 const Container = styled.section`
     border: 2px solid white;
     min-height:25vh;
-    margin:2em 0 2em 0;
+    margin:2em 0;
     & > h4{
         background-color:#1b0953;
         margin: 0;
@@ -26,7 +26,9 @@ const ActivePlayerDisplay = ({players, onAddFriend, myPlayerId}) => {
         <span>{player.playerName}</span>
         <span>{player.gamesPlayed} played</span>
         <span>{player.wins} wins</span>
-        {player.playerId !== myPlayerId && <button onClick={()=> onAddFriend(player.playerId)}>Add Friend</button>}
+        {player.playerId !== myPlayerId ?
+         <button onClick={()=> onAddFriend(player.playerId)}>Add Friend</button>
+        :<button>View my Stats</button>}
        </PlayerBox>)}
     </Container> );
 }

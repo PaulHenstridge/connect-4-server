@@ -3,6 +3,7 @@ import { styled} from "styled-components";
 const Container = styled.section`
     border: 2px solid white;
     min-height:25vh;
+    margin-bottom:2em;
     & > h4{
         background-color:#1b0953;
         margin: 0;
@@ -11,7 +12,11 @@ const Container = styled.section`
 `
 
 const GameBox = styled.div`
-    background-color: ${({status}) => status === "available" ? "green" : status==="waitiing" ? "blue" : status = "inPlay" ? "brown" : "grey"};
+    background-color: ${({status}) => status === "available" ?
+     "green" : status==="waitiing" ?
+      "blue" : status = "inPlay" ? "brown" : "grey"};
+    padding:0.4rem;
+    margin:0.4rem;
 `
 
 const ActiveGameDisplay = ({games, onJoinGame, myPlayerId}) => {
@@ -32,7 +37,7 @@ const ActiveGameDisplay = ({games, onJoinGame, myPlayerId}) => {
 
             {game.players.length === 1 && (
                 <div>
-                    {!game.gameOver && game.players[0].myPlayerId !== playerId ?   
+                    {!game.gameOver && game.players[0].playerId !== myPlayerId ?   
                         <GameBox status="available">Play against {game.players[0].playerName}?  <button onClick={() => onJoinGame(myPlayerId, game.gameId)}>Join Game</button> </GameBox>
                         : <GameBox status="waiting">Waiting for opponent</GameBox>
                     }

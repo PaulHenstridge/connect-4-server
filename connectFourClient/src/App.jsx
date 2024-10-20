@@ -18,7 +18,7 @@ import styled from 'styled-components'
 
 const GameOn = styled.div`
   display:flex;
-  flex-direction:column;
+  /* flex-direction:column; */
   align-items:center;
 `
 
@@ -236,12 +236,11 @@ function App() {
 
   return (
     <>
-      <Header name={player && player.playerName ? player.playerName : "Please sign in"}/>
+      <Header player={player} onCreateGame={createGame} gameOn={gameOn}/>
 
-      {!gameOn && <div>
+      {!gameOn && <>
         { !player &&<LogIn onEnterLobby = {enterLobby}/>}
         {player && <Lobby 
-          onCreateGame={createGame} 
           players={players} 
           games={games} 
           onJoinGame={joinGame}
@@ -251,7 +250,7 @@ function App() {
         />}
 
         {/* <FourTiles /> */}
-      </div>}
+      </>}
     
       {gameOn && <GameOn> 
         {/* <ColumnButtons boardArr={board} onColumnSelect={columnSelect}/> */}

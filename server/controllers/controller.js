@@ -81,7 +81,7 @@ const controller = (lobby) => {
     });
 
 
-    // TODO - when DB is added, store ALL REGISTERED PLAYERS (not just those active now)
+    // TODO - when DB is added, store ALL REGISTERED PLAYERS (not jut those active now)
     //  recreate new friend objectsd from this alll players array/table, not lobby
     const addFriend = (playerId, friendId) => {
         const player = lobby.findPlayerById(playerId);
