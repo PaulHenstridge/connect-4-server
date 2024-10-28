@@ -237,9 +237,14 @@ function App() {
   return (
     <>
       <Header player={player} onCreateGame={createGame} gameOn={gameOn}/>
+      
 
-      {!gameOn && <>
-        { !player &&<LogIn onEnterLobby = {enterLobby}/>}
+      {!gameOn && !player && <div>
+           <LogIn onEnterLobby = {enterLobby}/>
+           <FourTiles />
+      </div>     
+        }
+
         {player && <Lobby 
           players={players} 
           games={games} 
@@ -249,8 +254,7 @@ function App() {
           onAddFriend={addFriend}
         />}
 
-        {/* <FourTiles /> */}
-      </>}
+        
     
       {gameOn && <GameOn> 
         {/* <ColumnButtons boardArr={board} onColumnSelect={columnSelect}/> */}

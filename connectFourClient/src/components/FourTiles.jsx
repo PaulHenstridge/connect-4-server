@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 
 const FourTilesCOntainer = styled.div`
-    width:80vw;
+    width:25vw;
     display:flex;
     padding:2em 1em;
     border-top:2em;
@@ -16,6 +16,7 @@ const Tile = styled.div`
     border-radius:50%;
     background-color: ${ ({color}) => color === 1 ? 'red' : 'blue'};
     box-shadow: ${ ({ win}) => win ? '#e2d19a 0 0 8px 5px;' : 'none'};
+    margin:0.2em;
 `
 
 const FourTiles = () => {
@@ -24,12 +25,16 @@ const FourTiles = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newTileColors = [
-        Math.floor(Math.random() * 2) + 1,
-        Math.floor(Math.random() * 2) + 1,
-        Math.floor(Math.random() * 2) + 1,
-        Math.floor(Math.random() * 2) + 1,
-      ];
+
+      const changeColor = () => {
+        const newTiles = tileColors.map(_=> Math.floor(Math.random() * 2) + 1)
+        if (newTiles === tileColors) changeColor()
+        return newTiles
+      }
+
+        const newTileColors = changeColor()
+
+    
 
       setTileColors(newTileColors);
 
@@ -38,14 +43,14 @@ const FourTiles = () => {
         newTileColors[0] === newTileColors[2] &&
         newTileColors[0] === newTileColors[3]
       );
-    }, 2500); // <-- adjust time here
+    }, 1500); // <-- adjust time here
 
     return () => clearInterval(interval);
   }, []);
 
     return ( 
         <FourTilesCOntainer >
-        {tileColors.map((tile, index) => <Tile color={tileColors[index]} win={winning}/>)}
+        {tileColors.map((tile, index) => <Tile color={tileColors[index]} win={winning} key={index}/>)}
     </FourTilesCOntainer> );
 }
  
