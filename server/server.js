@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 
 import cors from "cors"
 import { createServer } from 'http'
@@ -7,7 +9,6 @@ import express from "express"
 import Lobby from "./model/Lobby.js"
 import controller from "./controllers/controller.js"
 
-import 'dotenv/config';
 
 const port = 8000
 

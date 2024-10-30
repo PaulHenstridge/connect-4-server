@@ -1,10 +1,17 @@
 import Game from '../model/Game.js';
 import Player from '../model/Player.js';
 
+import {insertPlayer, updatePlayer} from "../repositories/playerRepository.js";
+
+
 const controller = (lobby) => {
 
     const enterLobby = (name, socketId) => {
         const newPlayer = lobby.enterLobby(name, socketId)
+
+        // add  to DB
+        insertPlayer(newPlayer)
+
         return {
             success: newPlayer instanceof Player,
             newPlayer: newPlayer,
@@ -54,7 +61,9 @@ const controller = (lobby) => {
         const player = lobby.findPlayerById(playerId);
         const game = lobby.findGameById(gameId);
         const isGameOver = game.playTurn(player, columnIndex);
-        // if(isGameOver) player.wins++
+        // Update DB
+        if(isGameOver) updatePlayer(player)
+        
         const newActivePlayers = lobby.getAllActivePlayers()
         console.log("newActivePlayers passed from playTurn after a win", newActivePlayers)
 

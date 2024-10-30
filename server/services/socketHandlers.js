@@ -1,4 +1,3 @@
-
 const socketHandlers = (io, controller) => {
 
     io.on('connection', (socket) => {
