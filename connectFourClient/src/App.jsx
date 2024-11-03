@@ -49,8 +49,11 @@ function App() {
   const [chatMessages, setChatMessages] = useState([]);
 
   // socket emitting
-  const enterLobby = playerName => {
-    socket.emit('enterLobby', playerName);
+  const signUp = (playerName, email, password) => {
+    socket.emit('signUp', {playerName, email, password});
+  };
+  const logIn = (email, password) => {
+    socket.emit('logIn', {email, password});
   };
 
   const createGame = playerId => {
@@ -240,7 +243,7 @@ function App() {
       
 
       {!gameOn && !player && <div>
-           <LogIn onEnterLobby = {enterLobby}/>
+           <LogIn onSignUp = {signUp}/>
            <FourTiles />
       </div>     
         }

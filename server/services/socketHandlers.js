@@ -1,4 +1,4 @@
-import { logInUser,signUpUser } from "./auth";
+import { logInUser,signUpUser } from "./auth.js";
 
 const socketHandlers = (io, controller) => {
 
