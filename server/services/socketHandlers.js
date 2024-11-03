@@ -1,12 +1,48 @@
+import { logInUser,signUpUser } from "./auth";
+
 const socketHandlers = (io, controller) => {
 
     io.on('connection', (socket) => {
         console.log('a user connected', socket.id)
         const connectionId = socket.id
 
+// TODO -  enterLobby becomes logInPlayer.  check auth, if ok, do the below
+//         also need a signUpNewPlayer.  when successful, then enterLobby stuff happens
+
 // events
+
+    // Auth
+        socket.on('signUp', (userName, email, password) => {
+            const {data,error} = signUpUser(email, password)
+            // TODO - get id from DB and use in app
+            if(!error){
+                if(socket.connected){
+                    const response = controller.enterLobby(userName, socket.id);
+                    console.log("SignUp event response ", response)
+                    socket.emit("newPlayerObject", response.newPlayer);
+                    io.emit('enterLobbyResponse', response);
+                } else {
+                    console.log("Connection Failed - socket not connected")
+                }
+            }
+        })
+
+        socket.on('logIn',(email, password) => {
+            const {data, error} = logInUser(email, password)
+            // TODO - get values form data to produce player object
+            if(!error){
+                if(socket.connected){
+                    const response = controller.returnToLobby(userName, socket.id);
+                    console.log("returnToLobby event response ", response)
+                    // socket.emit("newPlayerObject", response.newPlayer);
+                    io.emit('returnToLobbyResponse', response);
+                } else {
+                    console.log("Connection Failed - socket not connected")
+                }
+            }
+        } )
     // Lobby
-        // Enter lobby - (name),
+        // Enter lobby - (name), 
         socket.on('enterLobby', (playerName) => {
             if(socket.connected){
                 const response = controller.enterLobby(playerName, socket.id);
