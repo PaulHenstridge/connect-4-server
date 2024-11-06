@@ -27,11 +27,11 @@ const LogIn = ({onSignUp, onLogIn}) => {
         >{newPlayer ? 'Returning players log in here' : 'new players sign up here'}</button>  
     { newPlayer && <Container>
         <h3>New player sign up </h3>
-        <label for='userName'  >User Name</label>
+        <label htmlFor='userName'  >User Name</label>
         <input id='userName' value={userName}onChange={e => setUserName(e.target.value)}/>
-        <label for='email'  >Email</label>
+        <label htmlFor='email'  >Email</label>
         <input id='email' value={email}onChange={e => setEmail(e.target.value)}/>
-        <label for='password'  >Password</label>
+        <label htmlFor='password'  >Password</label>
         <input id='password' value={password}onChange={e => setPassword(e.target.value)}/>
         <button 
             onClick={(e) => {
@@ -46,9 +46,9 @@ const LogIn = ({onSignUp, onLogIn}) => {
    {!newPlayer && <Container>
         <h3>Returning player log in </h3>
         <label for='email'  >Email</label>
-        <input id='email' value={email}onChange={e => setEmail(e.target.value)}/>
+        <input id='email' value={email} onChange={e => setEmail(e.target.value)}/>
         <label for='password'  >Password</label>
-        <input id='password' value={password}onChange={e => setPassword(e.target.value)}/>
+        <input id='password' value={password} onChange={e => setPassword(e.target.value)}/>
         <button 
             onClick={(e) => {
                 e.preventDefault()

@@ -19,7 +19,7 @@ const logInUser = async (email, password) => {
         console.error('Error logging in:', error.message)
         return { data, error }
     } else {
-        console.log('Signup successful:', data);
+        console.log('Log in successful:', data);
         return { data, error };
       }
 }

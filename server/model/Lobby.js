@@ -7,8 +7,9 @@ export default class Lobby {
         this.games = [];
     }
 
-    enterLobby(name, connectionId){
-        const player = new Player(name);
+    enterLobby(name, playerId, connectionId){
+        console.log('name passsed to enterlobby', name)
+        const player = new Player(name, playerId);
         console.log('enter lobby player created', player)
         this.activePlayers.set(player.playerId, { player, connectionId})
         return player;

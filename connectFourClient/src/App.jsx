@@ -142,6 +142,10 @@ function App() {
         setGames(data.currentGames);
         setPlayers(data.players);
     });
+
+    socket.on('returnToLobbyResponse', data => {
+      console.log("ReturnLobby rrsponse -->", data)
+    })
  
     
     socket.on('newPlayerObject', player => {
@@ -243,8 +247,8 @@ function App() {
       
 
       {!gameOn && !player && <div>
-           <LogIn onSignUp = {signUp}/>
-           <FourTiles />
+           <LogIn onSignUp = {signUp} onLogIn={logIn}/>
+           {/* <FourTiles /> */}
       </div>     
         }
 

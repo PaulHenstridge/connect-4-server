@@ -1,10 +1,10 @@
 import { randomUUID } from 'crypto';
 
 export default class Player{
-    constructor(name){
+    constructor(name, playerId ){
         this.playerName = name;
         this.playerNumber = null;
-        this.playerId = randomUUID();
+        this.playerId = playerId || randomUUID();
         this.gamesPlayed = 0;
         this.wins = 0;
         this.friendIds = [];

@@ -6,8 +6,8 @@ import {insertPlayer, updatePlayer} from "../repositories/playerRepository.js";
 
 const controller = (lobby) => {
 
-    const enterLobby = (name, socketId) => {
-        const newPlayer = lobby.enterLobby(name, socketId)
+    const enterLobby = (name, playerId, socketId) => {
+        const newPlayer = lobby.enterLobby(name, playerId, socketId)
 
         // add  to DB
         insertPlayer(newPlayer)

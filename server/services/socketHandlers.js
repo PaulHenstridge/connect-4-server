@@ -6,18 +6,19 @@ const socketHandlers = (io, controller) => {
         console.log('a user connected', socket.id)
         const connectionId = socket.id
 
-// TODO -  enterLobby becomes logInPlayer.  check auth, if ok, do the below
-//         also need a signUpNewPlayer.  when successful, then enterLobby stuff happens
+// TODO -  MOVE THIS STUFF TO AN AUTH CONTROLLER
 
 // events
 
     // Auth
-        socket.on('signUp', (userName, email, password) => {
-            const {data,error} = signUpUser(email, password)
+        socket.on('signUp', async ({playerName, email, password}) => {
+            const {data,error} = await signUpUser(email, password)
             // TODO - get id from DB and use in app
+            console.log('data,error in signup', data, error)
             if(!error){
                 if(socket.connected){
-                    const response = controller.enterLobby(userName, socket.id);
+                    const playerId = data.user.id
+                    const response = controller.enterLobby(playerName, playerId, socket.id);
                     console.log("SignUp event response ", response)
                     socket.emit("newPlayerObject", response.newPlayer);
                     io.emit('enterLobbyResponse', response);
@@ -27,15 +28,17 @@ const socketHandlers = (io, controller) => {
             }
         })
 
-        socket.on('logIn',(email, password) => {
-            const {data, error} = logInUser(email, password)
+        socket.on('logIn',async ({email, password}) => {
+            const {data, error} = await logInUser(email, password)
+            console.log('data,error in LOGIN', data, error)
+
             // TODO - get values form data to produce player object
             if(!error){
                 if(socket.connected){
-                    const response = controller.returnToLobby(userName, socket.id);
-                    console.log("returnToLobby event response ", response)
+                    // const response = controller.returnToLobby(userName, socket.id);
+                    // console.log("returnToLobby event response ", response)
                     // socket.emit("newPlayerObject", response.newPlayer);
-                    io.emit('returnToLobbyResponse', response);
+                    io.emit('returnToLobbyResponse', data);
                 } else {
                     console.log("Connection Failed - socket not connected")
                 }
