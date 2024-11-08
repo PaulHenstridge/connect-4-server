@@ -1,6 +1,6 @@
 import { logInUser,signUpUser } from "./auth.js";
 
-const socketHandlers = (io, controller) => {
+const socketHandlers = (io, controller, authController) => {
 
     io.on('connection', (socket) => {
         console.log('a user connected', socket.id)
@@ -12,23 +12,25 @@ const socketHandlers = (io, controller) => {
 
     // Auth
         socket.on('signUp', async ({playerName, email, password}) => {
-            const {data,error} = await signUpUser(email, password)
-            // TODO - get id from DB and use in app
-            console.log('data,error in signup', data, error)
-            if(!error){
-                if(socket.connected){
-                    const playerId = data.user.id
-                    const response = controller.enterLobby(playerName, playerId, socket.id);
-                    console.log("SignUp event response ", response)
-                    socket.emit("newPlayerObject", response.newPlayer);
-                    io.emit('enterLobbyResponse', response);
-                } else {
-                    console.log("Connection Failed - socket not connected")
-                }
+
+            const {playerName, playerId} = authController.signUp(email, password)
+  
+            if(socket.connected){
+                const response = controller.enterLobby(playerName, playerId, socket.id);
+                
+                console.log("SignUp event response ", response)
+
+                socket.emit("newPlayerObject", response.newPlayer);
+                io.emit('enterLobbyResponse', response);
+
+            } else {
+                console.log("Connection Failed - socket not connected")
             }
         })
 
         socket.on('logIn',async ({email, password}) => {
+            const {playerId} = authController.signIn(email, password)
+            const player = 
             const {data, error} = await logInUser(email, password)
             console.log('data,error in LOGIN', data, error)
 
