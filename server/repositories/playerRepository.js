@@ -45,6 +45,20 @@ const updatePlayer = async (player) => {
 
 // return a single player by id
 
+const getPlayerById = async playerId => {
+  let { data: player, error } = await supabase
+  .from('Player')
+  .select('*')
+  .eq('playerId', playerId)
+  .single();
+
+if (error) {
+  console.error('Error fetching player:', error.message);
+  return null;
+}
+
+return player;
+}
 
 
 

@@ -35,7 +35,7 @@ const gameController = controller(lobby)
 
 
 // Use the socketHandlers function to handle the Socket.IO events
-socketHandlers(io, myController, authController);
+socketHandlers(io, gameController, authController);
 
 server.listen(port, () => {
     console.log(`listening on port ${port}`)

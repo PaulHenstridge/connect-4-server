@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 
 export default class Player{
-    constructor(name, playerId ){
+    constructor(name, playerId, gamesPlayed=0, wins=0, friendIds = [] ){
         this.playerName = name;
         this.playerNumber = null;
         this.playerId = playerId || randomUUID();

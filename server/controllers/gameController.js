@@ -2,7 +2,7 @@ import Game from '../model/Game.js';
 import Player from '../model/Player.js';
 
 
-import {insertPlayer, updatePlayer} from "../repositories/playerRepository.js";
+import {insertPlayer, updatePlayer, getPlayerById} from "../repositories/playerRepository.js";
 
 
 const controller = (lobby) => {
@@ -21,6 +21,15 @@ const controller = (lobby) => {
             currentGames: lobby.games
         } 
     };
+
+    const returnToLobby = playerId => {
+        const {player_name, games_played, wins} = getPlayerById(playerId)
+        const player = new Player(player_name, playerId, games_played, wins)
+        // - TODO - create a getPlayer function in DB repo
+        // use to get player data from DB
+        // create a Player object
+        // return a response object as above
+    }
 
     const removeFromLobby = socketId => {
         return {

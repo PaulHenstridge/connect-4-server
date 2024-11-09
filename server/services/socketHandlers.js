@@ -30,21 +30,14 @@ const socketHandlers = (io, controller, authController) => {
 
         socket.on('logIn',async ({email, password}) => {
             const {playerId} = authController.signIn(email, password)
-            const player = 
-            const {data, error} = await logInUser(email, password)
-            console.log('data,error in LOGIN', data, error)
-
-            // TODO - get values form data to produce player object
-            if(!error){
                 if(socket.connected){
-                    // const response = controller.returnToLobby(userName, socket.id);
-                    // console.log("returnToLobby event response ", response)
-                    // socket.emit("newPlayerObject", response.newPlayer);
+                    // call new fuction in lobby - via gameController, returnToLobby(playerId)
+                    const data = controller.returnToLobby(playerId)
                     io.emit('returnToLobbyResponse', data);
                 } else {
                     console.log("Connection Failed - socket not connected")
                 }
-            }
+            
         } )
     // Lobby
         // Enter lobby - (name), 
