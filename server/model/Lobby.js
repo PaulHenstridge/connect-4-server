@@ -7,18 +7,22 @@ export default class Lobby {
         this.games = [];
     }
 
-    enterLobby(name, playerId, connectionId){
-        console.log('name passsed to enterlobby', name)
+    enterLobby(name, playerId, socketId){
         const player = new Player(name, playerId);
-        console.log('enter lobby player created', player)
-        this.activePlayers.set(player.playerId, { player, connectionId})
+        this.activePlayers.set(player.playerId, { player, socketId})
         return player;
     }
 
+    returnToLobby(playerName, playerId, gamesPlayed, wins, socketId){
+        const player = new Player(playerName, playerId, gamesPlayed, wins)
+        this.activePlayers.set(player.playerId, { player, socketId})
+        return player;
+
+
+    }
+
     createGame(player){
-        console.log("player in createGame ", player)
         const game = new Game([player])
-        console.log("game in lobby create game ", game)
         game.players[0].playerNumber = 1;
         this.games.push(game);
         return game;

@@ -30,4 +30,6 @@ const authController = () => {
             console.error(error.message)
         }
     }
+    return {signUp, logIn}
 }
+export default authController();

@@ -145,10 +145,12 @@ function App() {
 
     socket.on('returnToLobbyResponse', data => {
       console.log("ReturnLobby rrsponse -->", data)
+      setGames(data.currentGames);
+      setPlayers(data.players);
     })
  
     
-    socket.on('newPlayerObject', player => {
+    socket.on('playerObject', player => {
         console.log('newPlayerObject event received ', player);
         setPlayer(player); 
     });

@@ -22,9 +22,17 @@ const controller = (lobby) => {
         } 
     };
 
-    const returnToLobby = playerId => {
+    const returnToLobby = (playerId, socketId) => {
         const {player_name, games_played, wins} = getPlayerById(playerId)
-        const player = new Player(player_name, playerId, games_played, wins)
+        const returningPlayer = lobby.returnToLobby(player_name, playerId, games_played, wins, socketId)
+
+        return {
+            success: returningPlayer instanceof Player,
+            player: returningPlayer,
+            players: lobby.getAllActivePlayers(),
+            currentGames: lobby.games
+        }
+
         // - TODO - create a getPlayer function in DB repo
         // use to get player data from DB
         // create a Player object

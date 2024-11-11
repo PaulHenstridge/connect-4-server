@@ -62,4 +62,4 @@ return player;
 
 
 
-export { insertPlayer, updatePlayer };
+export{ insertPlayer, updatePlayer, getPlayerById };
