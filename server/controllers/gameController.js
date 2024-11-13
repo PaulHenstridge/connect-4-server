@@ -22,8 +22,8 @@ const controller = (lobby) => {
         } 
     };
 
-    const returnToLobby = (playerId, socketId) => {
-        const {player_name, games_played, wins} = getPlayerById(playerId)
+    const returnToLobby = async (playerId, socketId) => {
+        const {player_name, games_played, wins} = await getPlayerById(playerId)
         const returningPlayer = lobby.returnToLobby(player_name, playerId, games_played, wins, socketId)
 
         return {
@@ -33,10 +33,6 @@ const controller = (lobby) => {
             currentGames: lobby.games
         }
 
-        // - TODO - create a getPlayer function in DB repo
-        // use to get player data from DB
-        // create a Player object
-        // return a response object as above
     }
 
     const removeFromLobby = socketId => {
@@ -126,6 +122,7 @@ const controller = (lobby) => {
 
     return {
         enterLobby,
+        returnToLobby,
         removeFromLobby,
         createGame,
         joinGame,

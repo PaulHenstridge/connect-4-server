@@ -17,8 +17,6 @@ export default class Lobby {
         const player = new Player(playerName, playerId, gamesPlayed, wins)
         this.activePlayers.set(player.playerId, { player, socketId})
         return player;
-
-
     }
 
     createGame(player){

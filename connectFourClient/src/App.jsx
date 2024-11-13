@@ -254,7 +254,7 @@ function App() {
       </div>     
         }
 
-        {player && <Lobby 
+        {player && !gameOn && <Lobby 
           players={players} 
           games={games} 
           onJoinGame={joinGame}

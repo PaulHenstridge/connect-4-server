@@ -5,8 +5,8 @@ export default class Player{
         this.playerName = name;
         this.playerNumber = null;
         this.playerId = playerId || randomUUID();
-        this.gamesPlayed = 0;
-        this.wins = 0;
+        this.gamesPlayed = gamesPlayed;
+        this.wins = wins;
         this.friendIds = [];
     }
 

@@ -10,26 +10,27 @@ const socketHandlers = (io, controller, authController) => {
     // Auth
         socket.on('signUp', async ({playerName, email, password}) => {
 
-            const {playerId} = await authController.signUp(playerName, email, password)
-  
-            if(socket.connected){
-                const response = controller.enterLobby(playerName, playerId, socket.id);
+            const signUpResponse = await authController.signUp(playerName, email, password)
+
+            if(socket.connected && !signUpResponse.error){
+
+                const response = controller.enterLobby(playerName, signUpResponse.playerId, socket.id);
                 
                 console.log("SignUp event response ", response)
 
-                socket.emit("newPlayerObject", response.newPlayer);
+                socket.emit("playerObject", response.newPlayer);
                 io.emit('enterLobbyResponse', response);
 
             } else {
-                console.log("Connection Failed - socket not connected")
+                console.error(signUpResponse.error)
             }
         })
 
         socket.on('logIn',async ({email, password}) => {
-            const {playerId} = await authController.signIn(email, password)
-                if(socket.connected){
+            const logInResponse = await authController.logIn(email, password)
+                if(socket.connected && !logInResponse.error){
                     // call new fuction in lobby - via gameController, returnToLobby(playerId)
-                    const response = controller.returnToLobby(playerId, socket.id)
+                    const response = await controller.returnToLobby(logInResponse.playerId, socket.id)
                     console.log("return to Lobby event response ", response)
                     socket.emit("playerObject", response.player);
     
