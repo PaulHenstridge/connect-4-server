@@ -31,8 +31,8 @@ const getAllFriends = async playerId => {
     console.error('Error fetching friend Ids from DB:', error.message);
     return { error };
 }
-console.log('data from getAllFriends -', data)
-return { friendIds: data };
+const friendIds = data.map( friend => friend.friend_id)
+return friendIds 
 }
 
 

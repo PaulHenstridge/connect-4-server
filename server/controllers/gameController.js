@@ -27,11 +27,20 @@ const controller = (lobby) => {
         const {player_name, games_played, wins} = await getPlayerById(playerId)
         const returningPlayer = lobby.returnToLobby(player_name, playerId, games_played, wins, socketId)
 
+        // get players friends ids from DB
+        const friendIds = await getAllFriends(playerId)
+        console.log('FRIENDIDEEES returning to lobby', friendIds)
+        returningPlayer.updateFriendIds(friendIds)
+        const friends = friendIds.map( async id => {
+            return await getPlayerById(id)
+        })
+
         return {
             success: returningPlayer instanceof Player,
             player: returningPlayer,
             players: lobby.getAllActivePlayers(),
-            currentGames: lobby.games
+            currentGames: lobby.games,
+            friends: friends
         }
 
     }
@@ -121,8 +130,10 @@ const controller = (lobby) => {
 
         } else {
             console.log("Friend added successfully:", data);
-            const {friendIds} = await getAllFriends(playerId)
-            const newFriends = friendIds.map(friend => lobby.findPlayerById(friend.friend_id))
+            const friendIds = await getAllFriends(playerId)
+            console.log('data back from getAllFriends -', friendIds)
+
+            const newFriends = friendIds.map(friendId => lobby.findPlayerById(friendId))
             return newFriends
         }
 

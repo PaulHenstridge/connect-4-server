@@ -147,6 +147,7 @@ function App() {
       console.log("ReturnLobby rrsponse -->", data)
       setGames(data.currentGames);
       setPlayers(data.players);
+      setFriends(data.friends)
     })
  
     
