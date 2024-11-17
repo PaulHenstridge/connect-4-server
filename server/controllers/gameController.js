@@ -31,9 +31,10 @@ const controller = (lobby) => {
         const friendIds = await getAllFriends(playerId)
         console.log('FRIENDIDEEES returning to lobby', friendIds)
         returningPlayer.updateFriendIds(friendIds)
-        const friends = friendIds.map( async id => {
-            return await getPlayerById(id)
-        })
+        const friends = await Promise.all(friendIds.map( async id => {
+            const {player_name, games_played, wins} = await getPlayerById(id)
+            return new Player(player_name, games_played, wins)
+        }))
 
         return {
             success: returningPlayer instanceof Player,
@@ -133,7 +134,11 @@ const controller = (lobby) => {
             const friendIds = await getAllFriends(playerId)
             console.log('data back from getAllFriends -', friendIds)
 
-            const newFriends = friendIds.map(friendId => lobby.findPlayerById(friendId))
+            //  below needs to get data from DB and return Player objects
+            const newFriends = friendIds.map(async id => {
+                const {player_name, playerId, games_played, wins} = await getPlayerById(id)
+                return new Player(player_name, playerId, games_played, wins)
+            })
             return newFriends
         }
 
