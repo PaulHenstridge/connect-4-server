@@ -100,9 +100,9 @@ const socketHandlers = (io, controller, authController) => {
             console.log("quit event received")
         });
 
-        socket.on('addFriend', data => {
+        socket.on('addFriend', async data => {
             console.log("add friend event received", data)
-            const response = controller.addFriend(data.playerId, data.friendId)
+            const response = await controller.addFriend(data.playerId, data.friendId)
             console.log('response back from add friend', response)
             socket.emit('addFriendResponse', response)
         })

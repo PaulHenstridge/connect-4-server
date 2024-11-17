@@ -57,7 +57,6 @@ export default class Lobby {
     }
 
     findPlayerById(id){
-        console.log('searched id in findPlayerById', id)
         const entry = this.activePlayers.get(id);
         return entry ? entry.player : undefined;
     }

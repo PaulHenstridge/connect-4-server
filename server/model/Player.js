@@ -15,6 +15,10 @@ export default class Player{
         return this.friendIds
     }
 
+    updateFriendIds(newIds){
+        this.friendIds = newIds
+    }
+
     quitGame(){
         console.log(this.name + " quit")
     }

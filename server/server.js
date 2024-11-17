@@ -18,10 +18,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// Create HTTP server 
+// HTTP server 
 const server = createServer(app);
 
-// Create Socket.IO server using HTTP server
+// Socket.IO server using HTTP server
 const io = new Server(server, {
     cors: {
         origin: "http://localhost:5173",

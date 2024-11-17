@@ -3,6 +3,7 @@ import Player from '../model/Player.js';
 
 
 import {insertPlayer, updatePlayer, getPlayerById} from "../repositories/playerRepository.js";
+import { addFriendToDb, getAllFriends } from '../repositories/playerFriendsRepository.js';
 
 
 const controller = (lobby) => {
@@ -107,17 +108,25 @@ const controller = (lobby) => {
     });
 
 
-    // TODO - when DB is added, store ALL REGISTERED PLAYERS (not jut those active now)
-    //  recreate new friend objectsd from this alll players array/table, not lobby
-    const addFriend = (playerId, friendId) => {
+    const addFriend = async (playerId, friendId) => {
+
         const player = lobby.findPlayerById(playerId);
 
-        const newFriendIds = player.addFriend(friendId)
+        const { data, error } = await addFriendToDb(playerId, friendId);
+        if (error) {
+            console.error("Failed to add friend to DB:", error.message);
+            const newFriendIds = player.addFriend(friendId)
+            const newFriends = newFriendIds.map(friendId => lobby.findPlayerById(friendId))
+            return newFriends
 
-        const newFriends = newFriendIds.map(friendId => lobby.findPlayerById(friendId)
-        )
+        } else {
+            console.log("Friend added successfully:", data);
+            const {friendIds} = await getAllFriends(playerId)
+            const newFriends = friendIds.map(friend => lobby.findPlayerById(friend.friend_id))
+            return newFriends
+        }
 
-        return newFriends
+
     }
 
     return {
