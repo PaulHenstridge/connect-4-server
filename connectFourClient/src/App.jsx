@@ -87,6 +87,13 @@ function App() {
     })
   }
 
+  const unFriend = friendId => {
+    socket.emit('unFriend', {
+      friendId:friendId,
+      playerId: player.playerId
+    })
+  }
+
   const sendMessage = (messageText) => {
     console.log('sendMessage called!')
     const messageObj = {
@@ -210,10 +217,9 @@ function App() {
     
     // make this updateFriendResponse and use for adding and removing, and also to keep list up to date!
     // adjust on b/e
-    socket.on('addFriendResponse', (friends) => {
+    socket.on('updateFriendResponse', (friends) => {
       console.log("add friend response received", friends);
       const friendsWithStatus = friends.map(friend => {
-        console.log('ids%%%%%',friend.playerName, friend.playerId, players)
         const isActive = players.some(player => player.playerId === friend.playerId)
         return { ...friend, isActive }
       })
@@ -247,7 +253,6 @@ function App() {
   return (
     <>
       <Header player={player} onCreateGame={createGame} gameOn={gameOn}/>
-      
 
       {!gameOn && !player && <div>
            <LogIn onSignUp = {signUp} onLogIn={logIn}/>
@@ -262,6 +267,7 @@ function App() {
           player={player}
           friends={friends}
           onAddFriend={addFriend}
+          onUnfriend={unFriend}
         />}
 
         

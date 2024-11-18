@@ -3,7 +3,7 @@ import Player from '../model/Player.js';
 
 
 import {insertPlayer, updatePlayer, getPlayerById} from "../repositories/playerRepository.js";
-import { addFriendToDb, getAllFriends } from '../repositories/playerFriendsRepository.js';
+import { addFriendToDb, getAllFriends, removeFriendFromDb } from '../repositories/playerFriendsRepository.js';
 
 
 const controller = (lobby) => {
@@ -29,8 +29,8 @@ const controller = (lobby) => {
 
         // get players friends ids from DB
         const friendIds = await getAllFriends(playerId)
-        console.log('FRIENDIDEEES returning to lobby', friendIds)
         returningPlayer.updateFriendIds(friendIds)
+
         const friends = await Promise.all(friendIds.map( async id => {
             const {player_name, games_played, wins} = await getPlayerById(id)
             return new Player(player_name, games_played, wins)
@@ -132,17 +132,40 @@ const controller = (lobby) => {
         } else {
             console.log("Friend added successfully:", data);
             const friendIds = await getAllFriends(playerId)
-            console.log('data back from getAllFriends -', friendIds)
+            // update player object form db
+            player.updateFriendIds(friendIds)
 
-            //  below needs to get data from DB and return Player objects
+            // get data from DB and return Player objects
             const newFriends = friendIds.map(async id => {
                 const {player_name, playerId, games_played, wins} = await getPlayerById(id)
                 return new Player(player_name, playerId, games_played, wins)
             })
             return newFriends
         }
+    }
 
+    const unFriend = async (playerId, friendId) => {
 
+        const player = lobby.findPlayerById(playerId);
+
+        const { data, error } = await removeFriendFromDb(playerId, friendId);
+        if (error) {
+            console.error("Failed to remove friend from DB:", error.message);
+            // const newFriendIds = player.addFriend(friendId)
+            // const newFriends = newFriendIds.map(friendId => lobby.findPlayerById(friendId))
+            // return newFriends
+
+        } else {
+            console.log("Friend removed:", data);
+            const friendIds = await getAllFriends(playerId)
+
+            // get data from DB and return Player objects
+            const newFriends = friendIds.map(async id => {
+                const {player_name, playerId, games_played, wins} = await getPlayerById(id)
+                return new Player(player_name, playerId, games_played, wins)
+            })
+            return newFriends
+        }
     }
 
     return {
@@ -154,7 +177,8 @@ const controller = (lobby) => {
         viewOpenGames,
         playTurn,
         rematch,
-        addFriend
+        addFriend,
+        unFriend
     };
 };
 

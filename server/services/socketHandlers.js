@@ -95,7 +95,7 @@ const socketHandlers = (io, controller, authController) => {
 
         })
     // Player
-        // quit - (player)
+        // TODO - quit - (player)
         socket.on('quit', (data) => {
             console.log("quit event received")
         });
@@ -104,8 +104,16 @@ const socketHandlers = (io, controller, authController) => {
             console.log("add friend event received", data)
             const response = await controller.addFriend(data.playerId, data.friendId)
             console.log('response back from add friend', response)
-            socket.emit('addFriendResponse', response)
+            socket.emit('updateFriendResponse', response)
         })
+        // TODO - make both emit updateFriendResponse
+        socket.on('unFriend', async data => {
+            console.log("unfriend event received", data)
+            const response = await controller.unFriend(data.playerId, data.friendId)
+            console.log('response back from unfriend', response)
+            socket.emit('updateFriendResponse', response)
+        })
+
 
 
 

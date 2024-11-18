@@ -35,5 +35,16 @@ const friendIds = data.map( friend => friend.friend_id)
 return friendIds 
 }
 
+const removeFriendFromDb = async(playerId, friendId) => {
 
-export {addFriendToDb, getAllFriends}
+    const { data, error } = await supabase
+    .from('playerfriends')
+    .delete()
+    .eq('player_id', playerId)
+    .eq('friend_id', friendId)
+
+    return {data, error}
+}
+
+
+export {addFriendToDb, getAllFriends, removeFriendFromDb}

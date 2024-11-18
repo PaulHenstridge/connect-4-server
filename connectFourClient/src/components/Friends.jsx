@@ -44,14 +44,19 @@ const Button = styled.button`
     }
 `
 
-const Friends = ({friends}) => {
+const Friends = ({friends, onUnfriend}) => {
 
     console.log('friends passed to Friend component:', friends)
     return ( <FriendsContainer>
         <h4>Friends</h4>
         <Ul>
              { friends.map(friend => {
-            return <Friend key={friend.playerId}><span>{friend.playerName}</span> <span>active:{friend.isActive && 'True!'} </span><Button>Challenge {friend.playerName} </Button> </Friend>
+            return (<Friend key={friend.playerId}> 
+                <span>{friend.playerName}</span> 
+                <span>active:{friend.isActive && 'True!'} </span>
+                <Button>Challenge {friend.playerName} </Button>
+                <span onClick={onUnfriend}>Unfriend</span>
+             </Friend>)
         })}
        </Ul>
     </FriendsContainer> );
