@@ -160,10 +160,10 @@ const controller = (lobby) => {
             const friendIds = await getAllFriends(playerId)
 
             // get data from DB and return Player objects
-            const newFriends = friendIds.map(async id => {
+            const newFriends = await Promise.all(friendIds.map(async id => {
                 const {player_name, playerId, games_played, wins} = await getPlayerById(id)
                 return new Player(player_name, playerId, games_played, wins)
-            })
+            }))
             return newFriends
         }
     }

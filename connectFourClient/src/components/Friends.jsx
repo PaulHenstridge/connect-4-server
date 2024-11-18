@@ -55,7 +55,7 @@ const Friends = ({friends, onUnfriend}) => {
                 <span>{friend.playerName}</span> 
                 <span>active:{friend.isActive && 'True!'} </span>
                 <Button>Challenge {friend.playerName} </Button>
-                <span onClick={onUnfriend}>Unfriend</span>
+                <span onClick={() => onUnfriend(friend.playerId)}>Unfriend</span>
              </Friend>)
         })}
        </Ul>

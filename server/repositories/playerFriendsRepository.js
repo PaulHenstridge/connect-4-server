@@ -42,6 +42,9 @@ const removeFriendFromDb = async(playerId, friendId) => {
     .delete()
     .eq('player_id', playerId)
     .eq('friend_id', friendId)
+    .select()
+
+    console.log("remove fRom the PF repoooo", {data, error})
 
     return {data, error}
 }
