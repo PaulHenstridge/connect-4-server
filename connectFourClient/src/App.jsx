@@ -16,6 +16,9 @@ import ChatWindow from './components/ChatWindow'
 
 import styled from 'styled-components'
 
+import {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame} from './utils/socketEmitters.js'
+import { initializeListeners } from './utils/socketListeners'
+
 const GameOn = styled.div`
   display:flex;
   /* flex-direction:column; */
@@ -48,129 +51,32 @@ function App() {
 
   const [chatMessages, setChatMessages] = useState([]);
 
-  // socket emitting
-  const signUp = (playerName, email, password) => {
-    socket.emit('signUp', {playerName, email, password});
-  };
-  const logIn = (email, password) => {
-    socket.emit('logIn', {email, password});
-  };
-
-  const createGame = playerId => {
-    socket.emit('createGame', playerId);
-  };
-
-  const joinGame = (playerId, gameId) => {
-    socket.emit('joinGame', {playerId, gameId});
-  };
-
-  const columnSelect = (columnIndex) => {
-    if (gameOver) return;
-
-    socket.emit('playTurn', {
-        playerId: player.playerId,
-        columnIndex: columnIndex,
-        gameId: currentGame.gameId
-      });
-    
-    };
-
-  const declareWinner = (winner) => {
-    setGameOver(true); //unneeded?
-    setWinner(winner);
-  }
-
-  const addFriend = friendId => {
-    socket.emit('addFriend', {
-      friendId:friendId,
-      playerId: player.playerId
-    })
-  }
-
-  const unFriend = friendId => {
-    socket.emit('unFriend', {
-      friendId:friendId,
-      playerId: player.playerId
-    })
-  }
-
-  const sendMessage = (messageText) => {
-    console.log('sendMessage called!')
-    const messageObj = {
-      messageText: messageText,
-      senderId: player.playerId,
-      senderName: player.playerName
-    }
-    setChatMessages(prevMessages => [...prevMessages, messageObj])
-    socket.emit('roomChatMsg', {
-        messageText:messageText,
-        gameId: currentGame.gameId,
-        senderId: player.playerId,
-        senderName: player.playerName
-    })
-  }
-
-
-
-
-  const rematch = (playerId, gameId) => {
-    socket.emit("rematch", {playerId:player.playerId, gameId:currentGame.gameId});
-  }
-
-  const endGame = () => {
-    socket.emit("endGame", 
-    // TODO - neeed to send an event to both players, or the other player to end the game on their end
-    )
-    setGameOn(false)
-    setGameOver(false)
-    setCurrentGame({})
-    setBoard([
-      [0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0]
-    ])
-  }
-
-//
-
-  useEffect(() => {
-    if(winner !== null){
-      console.log(`By the power of useEffect player ${winner} is the weeeeeener!`);
-    }
-  },[winner]);
 
   //socket listening
   useEffect(() => {
-    socket.on('enterLobbyResponse', data => {
-        console.log('enterLobby event received ', data);
-        setGames(data.currentGames);
-        setPlayers(data.players);
-    });
-
-    socket.on('returnToLobbyResponse', data => {
-      console.log("ReturnLobby rrsponse -->", data)
-      setGames(data.currentGames);
-      setPlayers(data.players);
-      setFriends(data.friends)
-    })
- 
-    
-    socket.on('playerObject', player => {
-        console.log('newPlayerObject event received ', player);
+    const cleanup = initializeListeners({
+      onEnterLobby:data => {
+        console.log('enterLobby event received ', data)
+        setGames(data.currentGames)
+        setPlayers(data.players)
+      },
+      onReturnToLobby: data => {
+        console.log("ReturnLobby rrsponse -->", data)
+        setGames(data.currentGames)
+        setPlayers(data.players)
+        setFriends(data.friends)
+      },
+      onPlayerObject:player => {
+        console.log('newPlayerObject event received ', player)
         setPlayer(player); 
-    });
-
-    socket.on('createGameResponse', data => {
-        console.log("createGame response received");
-        setCurrentGame(data.game);
-        setGames(data.currentGames);
-        setWaitingforOpponent(true);
-    });
-
-    socket.on('joinGameResponse', data => {
+      },
+      onCreateGame:data => {
+        console.log("createGame response received")
+        setCurrentGame(data.game)
+        setGames(data.currentGames)
+        setWaitingforOpponent(true)
+      },
+      onJoinGame: data => {
         console.log("joinGame response received", data);
         if (data.success){
           setCurrentGame(data.game);
@@ -178,19 +84,17 @@ function App() {
           setGames(data.currentGames);
         } else {
           console.log(game)
-          // show error message in DOM
+          // TODO - show error message in DOM
         }
-    });
-
-    socket.on('exitLobbyResponse', data => {
+      },
+      onExitLobby: data => {
       console.log('exitLobby response received', data)
       if (data.success){
         setPlayers(data.activePlayers)
         //TODO - add a message - playername has disconnected
       }
-    })
-    
-    socket.on('playTurnResponse', data => {
+      },
+      onPlayTurn:data => {
         console.log("playTurn response received", data);
         setCurrentGame(data.game);
         setBoard(data.game.board);
@@ -199,50 +103,33 @@ function App() {
         if(data.isGameOver){
           console.log('gameOver playturn response', data)
         }
+      },
+      onRematch:data => {
+        console.log("rematch response received", data);
+        if(data.success){
+          setCurrentGame(data.game);
+          setBoard(data.game.board);
+          setGameOn(true);
+          setGameOver(false);
+          setGames(data.currentGames);
+        }
+      }, 
+      onUpdateFriends: friends => {
+        console.log("update friend response received", friends);
+        const friendsWithStatus = friends.map(friend => {
+          const isActive = players.some(player => player.playerId === friend.playerId)
+          return { ...friend, isActive }
+        })
+        setFriends(friendsWithStatus)
+      },
+      onRoomMessage: (message) => {
+        console.log('room message received', message)
 
-        // if gameOver call a function, pass in game, update everything
-        // : player wins, formally end game and offer play again, any other admin...
-    });
-
-    socket.on("rematchResponse", data => {
-      console.log("rematch response received", data);
-      if(data.success){
-        setCurrentGame(data.game);
-        setBoard(data.game.board);
-        setGameOn(true);
-        setGameOver(false);
-        setGames(data.currentGames);
+        setChatMessages(prevMessages => [...prevMessages, message])
       }
     })
-    
-    // make this updateFriendResponse and use for adding and removing, and also to keep list up to date!
-    // adjust on b/e
-    socket.on('updateFriendResponse', (friends) => {
-      console.log("add friend response received", friends);
-      const friendsWithStatus = friends.map(friend => {
-        const isActive = players.some(player => player.playerId === friend.playerId)
-        return { ...friend, isActive }
-      })
-      setFriends(friendsWithStatus)
-    })
-
-    socket.on("roomMessage", (message) => {
-      console.log('room message received', message)
-
-      setChatMessages(prevMessages => [...prevMessages, message])
-    })
-
-
-    return () => {
-        socket.off('enterLobbyResponse');
-        socket.off('createGameResponse');
-        socket.off('joinGameResponse');
-        socket.off('playTurnResponse');
-        socket.off('rematchResponse');
-        socket.off('roomMessage');
-
-    }
-}, [socket])
+    return () => cleanup()
+},[])
 
 
 // done - players online needs a list of players with an actual live connection, not just who has logged in.

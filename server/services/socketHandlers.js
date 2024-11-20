@@ -104,14 +104,14 @@ const socketHandlers = (io, controller, authController) => {
             console.log("add friend event received", data)
             const response = await controller.addFriend(data.playerId, data.friendId)
             console.log('response back from add friend', response)
-            socket.emit('updateFriendResponse', response)
+            socket.emit('updateFriendsResponse', response)
         })
         // TODO - make both emit updateFriendResponse
         socket.on('unFriend', async data => {
             console.log("unfriend event received", data)
             const response = await controller.unFriend(data.playerId, data.friendId)
             console.log('response back from unfriend', response)
-            socket.emit('updateFriendResponse', response)
+            socket.emit('updateFriendsResponse', response)
         })
 
 

@@ -39,7 +39,6 @@ const Button = styled.button`
         box-shadow:none;
         background-color: #1d591a;
         border:black;
-        font-size: 0%.9;
         padding: 0.65em 1.2em;
     }
 `
