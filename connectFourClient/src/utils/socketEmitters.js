@@ -1,63 +1,63 @@
 import socket from "./socket";
 
 const signUp = (playerName, email, password) => {
-    socket.emit('signUp', {playerName, email, password});
+    socket.emit('signUp', {playerName, email, password})
   };
   const logIn = (email, password) => {
-    socket.emit('logIn', {email, password});
+    socket.emit('logIn', {email, password})
   };
 
   const createGame = playerId => {
-    socket.emit('createGame', playerId);
+    socket.emit('createGame', playerId)
   };
 
   const joinGame = (playerId, gameId) => {
-    socket.emit('joinGame', {playerId, gameId});
+    socket.emit('joinGame', {playerId, gameId})
   };
 
-  const columnSelect = (columnIndex) => {
+  const columnSelect = (columnIndex, playerId, gameId, gameOver) => {
     if (gameOver) return;
 
     socket.emit('playTurn', {
-        playerId: player.playerId,
-        columnIndex: columnIndex,
-        gameId: currentGame.gameId
+        playerId,
+        columnIndex,
+        gameId
       });
     
     };
 
   const declareWinner = (winner) => {
-    setGameOver(true); //unneeded?
-    setWinner(winner);
+    setGameOver(true) //unneeded?
+    setWinner(winner)
   }
 
-  const addFriend = friendId => {
+  const addFriend = (friendId, playerId) => {
     socket.emit('addFriend', {
-      friendId:friendId,
-      playerId: player.playerId
+      friendId,
+      playerId
     })
   }
 
-  const unFriend = friendId => {
+  const unFriend = (friendId, playerId) => {
     socket.emit('unFriend', {
-      friendId:friendId,
-      playerId: player.playerId
+      friendId,
+      playerId
     })
   }
 
-  const sendMessage = (messageText) => {
+  const sendMessage = (messageText, senderName, senderId, gameId) => {
     console.log('sendMessage called!')
     const messageObj = {
-      messageText: messageText,
-      senderId: player.playerId,
-      senderName: player.playerName
+      messageText,
+      senderId,
+      senderName
     }
     setChatMessages(prevMessages => [...prevMessages, messageObj])
     socket.emit('roomChatMsg', {
-        messageText:messageText,
-        gameId: currentGame.gameId,
-        senderId: player.playerId,
-        senderName: player.playerName
+        messageText,
+        gameId,
+        senderId,
+        senderName
     })
   }
 

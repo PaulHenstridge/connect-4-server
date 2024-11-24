@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useAppContext } from '../context/AppContext.jsx'
 
 const FriendsContainer = styled.div`
     /* display:flex;
@@ -46,6 +47,8 @@ const Button = styled.button`
 const Friends = ({friends, onUnfriend}) => {
 
     console.log('friends passed to Friend component:', friends)
+
+    const {player} = useAppContext()
     return ( <FriendsContainer>
         <h4>Friends</h4>
         <Ul>
@@ -54,7 +57,7 @@ const Friends = ({friends, onUnfriend}) => {
                 <span>{friend.playerName}</span> 
                 <span>active:{friend.isActive && 'True!'} </span>
                 <Button>Challenge {friend.playerName} </Button>
-                <span onClick={() => onUnfriend(friend.playerId)}>Unfriend</span>
+                <span onClick={() => onUnfriend(friend.playerId, player.playerId)}>Unfriend</span>
              </Friend>)
         })}
        </Ul>

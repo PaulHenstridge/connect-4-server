@@ -15,6 +15,7 @@ import FourTiles from './components/FourTiles'
 import ChatWindow from './components/ChatWindow'
 
 import styled from 'styled-components'
+import { useAppContext } from './context/AppContext'
 
 import {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame} from './utils/socketEmitters.js'
 import { initializeListeners } from './utils/socketListeners'
@@ -35,12 +36,12 @@ function App() {
     [0,0,0,0,0,0,0]
   ]);
 
-  const [player, setPlayer] = useState(null);
+  // const [player, setPlayer] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const [players, setPlayers] = useState([]);
   const [games, setGames] = useState([]);
-  const [currentGame, setCurrentGame] = useState({});
+  // const [currentGame, setCurrentGame] = useState({});
 
   const [waitingForOpponent, setWaitingforOpponent] = useState(false);
   const [gameOn, setGameOn] = useState(false);
@@ -51,6 +52,7 @@ function App() {
 
   const [chatMessages, setChatMessages] = useState([]);
 
+  const {player, setPlayer, currentGame, setCurrentGame} = useAppContext()
 
   //socket listening
   useEffect(() => {

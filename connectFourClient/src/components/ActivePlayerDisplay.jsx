@@ -1,4 +1,5 @@
 import { styled} from "styled-components";
+import { useAppContext } from "../context/AppContext";
 
 const Container = styled.section`
     border: 2px solid white;
@@ -20,15 +21,15 @@ const PlayerBox = styled.div`
     margin: 0.4rem;
 `
 const ActivePlayerDisplay = ({players, onAddFriend, myPlayerId}) => {
-    console.log('###players array to active playerdisplay', players)
+    const { player} = useAppContext();    
     return ( <Container>
     <h4>Active Players</h4>
-    {players.map(player => <PlayerBox key={player.playerId} > 
-        <span>{player.playerName}</span>
-        <span>{player.gamesPlayed} played</span>
-        <span>{player.wins} wins</span>
-        {player.playerId !== myPlayerId ?
-         <button onClick={()=> onAddFriend(player.playerId)}>Add Friend</button>
+    {players.map(pl => <PlayerBox key={pl.playerId} > 
+        <span>{pl.playerName}</span>
+        <span>{pl.gamesPlayed} played</span>
+        <span>{pl.wins} wins</span>
+        {pl.playerId !== myPlayerId ?
+         <button onClick={()=> onAddFriend(pl.playerId, player.playerId)}>Add Friend</button>
         :<button>View my Stats</button>}
        </PlayerBox>)}
     </Container> );

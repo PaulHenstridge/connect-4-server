@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components'
 
+import { useAppContext } from '../context/AppContext.jsx';
+
 
 const Container = styled.section`
     border: 2px solid aliceblue;
@@ -58,6 +60,8 @@ const Input = styled.input`
 
 const ChatWindow = ({onSendMessage, chatMessages, playerId}) => {
 
+    const {player, currentGame} = useAppContext()
+
     const [messageText, setMessageText] = useState('')
 
     const chatRef = useRef(null)
@@ -83,7 +87,7 @@ const ChatWindow = ({onSendMessage, chatMessages, playerId}) => {
             e.preventDefault()
             setMessageText(e.target.value)}}/>
         <button onClick={() => {
-            onSendMessage(messageText)
+            onSendMessage(messageText, player.playerName, player.playerId, currentGame.gameId)
             setMessageText('')
             }}>Send</button>
     </div>

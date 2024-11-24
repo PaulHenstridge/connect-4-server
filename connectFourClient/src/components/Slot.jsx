@@ -1,3 +1,4 @@
+import { useAppContext } from '../context/AppContext.jsx';
 import { styled } from "styled-components";
 
 const SlotBox = styled.div`
@@ -11,8 +12,10 @@ const SlotBox = styled.div`
 `
 
 const Slot = ({value, column, onColumnSelect}) => {
+    const { player,currentGame } = useAppContext();
+
     return ( <>
-    <SlotBox value={value} onClick={()=> onColumnSelect(column)}></SlotBox>
+    <SlotBox value={value} onClick={()=> onColumnSelect(column, player.playerId, currentGame.gameId, currentGame.gameOver)}></SlotBox>
     </> );
 }
  
