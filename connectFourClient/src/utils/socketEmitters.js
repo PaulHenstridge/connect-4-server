@@ -65,13 +65,11 @@ const signUp = (playerName, email, password) => {
     socket.emit("rematch", {playerId:player.playerId, gameId:currentGame.gameId});
   }
 
-  const endGame = () => {
+  const endGame = (setBoard, setCurrentGame, setGameOn, setGameOver) => {
     socket.emit("endGame", 
     // TODO - neeed to send an event to both players, or the other player to end the game on their end
     )
-    setGameOn(false)
-    setGameOver(false)
-    setCurrentGame({})
+
     setBoard([
       [0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0],
@@ -80,6 +78,9 @@ const signUp = (playerName, email, password) => {
       [0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0]
     ])
+    setCurrentGame({})
+    setGameOn(false)
+    setGameOver(false)
   }
 
   export {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame}

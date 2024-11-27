@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import Countdown from "./Countdown";
+import { useGameContext } from "../context/GameContext";
 
 const Container = styled.div`
     background-color:#0307037d;
@@ -33,7 +34,14 @@ const DecisionPanel = styled.div`
 
 const PlayAgain = ({game, onPlayAgain, playerId, gameId, onEndGame}) => {
 
-    // on gameOver a timer begins for both players to choose playAgain
+    const {
+        setBoard,
+        setCurrentGame,
+        setGameOn, 
+        setGameOver
+    } = useGameContext()
+
+    // TODO - on gameOver a timer begins for both players to choose playAgain
     //  if both layers do not click game is ended
     // else a new game is started
     
@@ -47,7 +55,7 @@ const PlayAgain = ({game, onPlayAgain, playerId, gameId, onEndGame}) => {
             <Countdown onEndGame={onEndGame}/>
             <h3>Play again?</h3>
             <button onClick={() => onPlayAgain(playerId, gameId)}>Yes</button>
-            <button onClick={() => onEndGame()} >No</button>
+            <button onClick={() => onEndGame(setBoard, setCurrentGame, setGameOn, setGameOver)} >No</button>
         </DecisionPanel>
       
     

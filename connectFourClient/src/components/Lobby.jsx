@@ -14,14 +14,14 @@ const LobbyContainer = styled.section`
 `
 
 
-const Lobby = ({onCreateGame, players, games, onJoinGame, player, friends, onAddFriend, onUnfriend}) => {
+const Lobby = ({onCreateGame, players, games, onJoinGame, player, onAddFriend, onUnfriend}) => {
 return ( 
     <OuterContainer>
         <LobbyContainer>
             <ActivePlayerDisplay players={players} onAddFriend={onAddFriend} myPlayerId={player.playerId}/>
             <ActiveGameDisplay games={games} onJoinGame={onJoinGame} myPlayerId={player.playerId}/>
         </LobbyContainer> 
-        <Friends friends={friends} onUnfriend={onUnfriend}/>
+        <Friends onUnfriend={onUnfriend}/>
     </OuterContainer>
     )
 }

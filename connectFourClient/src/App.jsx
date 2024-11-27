@@ -15,7 +15,10 @@ import FourTiles from './components/FourTiles'
 import ChatWindow from './components/ChatWindow'
 
 import styled from 'styled-components'
-import { useAppContext } from './context/AppContext'
+import { usePlayerContext } from './context/PlayerContext.jsx'
+import { useGameContext } from './context/GameContext.jsx'
+import { useLobbyContext } from './context/LobbyContext.jsx'
+import { useChatContext } from './context/ChatContext.jsx'
 
 import {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame} from './utils/socketEmitters.js'
 import { initializeListeners } from './utils/socketListeners'
@@ -27,32 +30,61 @@ const GameOn = styled.div`
 `
 
 function App() {
-  const [board, setBoard] = useState([
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0]
-  ]);
+
+// TODO - split state out into contexts.
+  //   gameContext -> currentGame, gameOn, gameOver, winner
+  //   playerContext -> player, friends
+  //   lobbyContext -> players, games
+  // chatContext?  ->  chatMessages, plus any development of chat ...?
+
+  // const [board, setBoard] = useState([
+  //   [0,0,0,0,0,0,0],
+  //   [0,0,0,0,0,0,0],
+  //   [0,0,0,0,0,0,0],
+  //   [0,0,0,0,0,0,0],
+  //   [0,0,0,0,0,0,0],
+  //   [0,0,0,0,0,0,0]
+  // ]);
 
   // const [player, setPlayer] = useState(null);
-  const [gameOver, setGameOver] = useState(false);
 
-  const [players, setPlayers] = useState([]);
-  const [games, setGames] = useState([]);
+  // const [gameOver, setGameOver] = useState(false);
+  // const [gameOn, setGameOn] = useState(false);
+  // const [winner, setWinner] = useState(null);
+// and currentGame here
+
+
+  // const [players, setPlayers] = useState([]);
+  // const [games, setGames] = useState([]);
+
   // const [currentGame, setCurrentGame] = useState({});
 
   const [waitingForOpponent, setWaitingforOpponent] = useState(false);
-  const [gameOn, setGameOn] = useState(false);
 
-  const [winner, setWinner] = useState(null);
+ // include friends in context with player, setplayer
+  // const [friends, setFriends] = useState([]);
 
-  const [friends, setFriends] = useState([]);
+  // const [chatMessages, setChatMessages] = useState([]);
 
-  const [chatMessages, setChatMessages] = useState([]);
+  const {
+    player, setPlayer,
+     friends, setFriends
+    } = usePlayerContext()
 
-  const {player, setPlayer, currentGame, setCurrentGame} = useAppContext()
+  const {
+    currentGame, setCurrentGame,
+    gameOn, setGameOn, 
+    gameOver, setGameOver, 
+    winner, setWiner,
+    board, setBoard
+        } = useGameContext()
+
+  const {
+    players, setPlayers,
+    games, setGames} = useLobbyContext()
+
+    const {chatMessages, setChatMessages} = useChatContext();
+
 
   //socket listening
   useEffect(() => {
@@ -61,12 +93,14 @@ function App() {
         console.log('enterLobby event received ', data)
         setGames(data.currentGames)
         setPlayers(data.players)
+        setFriends(data.newPlayer.friends)
       },
       onReturnToLobby: data => {
         console.log("ReturnLobby rrsponse -->", data)
         setGames(data.currentGames)
         setPlayers(data.players)
         setFriends(data.friends)
+        console.log('FRIENDS STATE SET TO ->', friends)
       },
       onPlayerObject:player => {
         console.log('newPlayerObject event received ', player)
@@ -133,11 +167,6 @@ function App() {
     return () => cleanup()
 },[])
 
-
-// done - players online needs a list of players with an actual live connection, not just who has logged in.
-// TODO - update wins on player objects.  add games played?
-// TODO - add DB saving player ids, with wins losses etc
-// TODO - add authentication
 
   return (
     <>

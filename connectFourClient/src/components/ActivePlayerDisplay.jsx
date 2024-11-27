@@ -1,5 +1,5 @@
 import { styled} from "styled-components";
-import { useAppContext } from "../context/AppContext";
+import { usePlayerContext } from "../context/PlayerContext";
 
 const Container = styled.section`
     border: 2px solid white;
@@ -21,7 +21,7 @@ const PlayerBox = styled.div`
     margin: 0.4rem;
 `
 const ActivePlayerDisplay = ({players, onAddFriend, myPlayerId}) => {
-    const { player} = useAppContext();    
+    const { player} = usePlayerContext();    
     return ( <Container>
     <h4>Active Players</h4>
     {players.map(pl => <PlayerBox key={pl.playerId} > 

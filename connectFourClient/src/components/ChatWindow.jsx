@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components'
 
-import { useAppContext } from '../context/AppContext.jsx';
+import { useGameContext } from '../context/GameContext.jsx';
+import { usePlayerContext } from '../context/PlayerContext.jsx';
 
 
 const Container = styled.section`
@@ -60,7 +61,8 @@ const Input = styled.input`
 
 const ChatWindow = ({onSendMessage, chatMessages, playerId}) => {
 
-    const {player, currentGame} = useAppContext()
+    const {player} = usePlayerContext()
+     const {currentGame} = useGameContext()
 
     const [messageText, setMessageText] = useState('')
 
