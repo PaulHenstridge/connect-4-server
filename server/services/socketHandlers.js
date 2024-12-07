@@ -32,7 +32,7 @@ const socketHandlers = (io, controller, authController) => {
                     // call new fuction in lobby - via gameController, returnToLobby(playerId)
                     const response = await controller.returnToLobby(logInResponse.playerId, socket.id)
                     console.log("return to Lobby event response ", response)
-                    socket.emit("playerObject", response.player);
+                    socket.emit("playerObject", {player:response.player, friends: response.friends});
     
                     io.emit('returnToLobbyResponse', response);
                 } else {

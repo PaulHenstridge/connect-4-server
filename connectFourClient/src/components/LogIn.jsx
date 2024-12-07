@@ -45,9 +45,9 @@ const LogIn = ({onSignUp, onLogIn}) => {
 
    {!newPlayer && <Container>
         <h3>Returning player log in </h3>
-        <label for='email'  >Email</label>
+        <label htmlFor='email'  >Email</label>
         <input id='email' value={email} onChange={e => setEmail(e.target.value)}/>
-        <label for='password'  >Password</label>
+        <label htmlFor='password'  >Password</label>
         <input id='password' value={password} onChange={e => setPassword(e.target.value)}/>
         <button 
             onClick={(e) => {

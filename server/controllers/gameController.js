@@ -33,7 +33,7 @@ const controller = (lobby) => {
 
         const friends = await Promise.all(friendIds.map( async id => {
             const {player_name, games_played, wins} = await getPlayerById(id)
-            return new Player(player_name, games_played, wins)
+            return new Player(player_name, id, games_played, wins)
         }))
 
         return {
