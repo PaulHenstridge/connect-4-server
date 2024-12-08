@@ -1,8 +1,11 @@
 import { styled } from "styled-components";
 import React, { useState } from 'react';
 
+const Container = styled.div`
+    margin-top: ${(props) => (window.innerHeight * 0.2 > 90 ? '20vh' : '90px')};/* Matches header height - 10vh*/
+`
 
-const Container = styled.form`
+const StyledLogin = styled.form`
     border: 2px solid aliceblue;
     padding: 0.6em;
     display: flex;
@@ -15,7 +18,7 @@ const LogIn = ({onSignUp, onLogIn}) => {
     const [password, setPassword] = useState('');
 
     const [newPlayer, setNewPlayer] = useState(true);
-    return ( <>   
+    return ( <Container>   
 
     <button onClick={() => {
         newPlayer ?
@@ -25,7 +28,7 @@ const LogIn = ({onSignUp, onLogIn}) => {
         }
     }
         >{newPlayer ? 'Returning players log in here' : 'new players sign up here'}</button>  
-    { newPlayer && <Container>
+    { newPlayer && <StyledLogin>
         <h3>New player sign up </h3>
         <label htmlFor='userName'  >User Name</label>
         <input id='userName' value={userName}onChange={e => setUserName(e.target.value)}/>
@@ -41,9 +44,9 @@ const LogIn = ({onSignUp, onLogIn}) => {
             }
             >Sign Up!
         </button>
-    </Container>}
+    </StyledLogin>}
 
-   {!newPlayer && <Container>
+   {!newPlayer && <StyledLogin>
         <h3>Returning player log in </h3>
         <label htmlFor='email'  >Email</label>
         <input id='email' value={email} onChange={e => setEmail(e.target.value)}/>
@@ -57,8 +60,8 @@ const LogIn = ({onSignUp, onLogIn}) => {
             }
             >Play!
         </button>
-    </Container>}
-    </> );
+    </StyledLogin>}
+    </Container> );
 }
  
 export default LogIn;

@@ -6,6 +6,8 @@ import Friends from "./Friends";
 
 const OuterContainer = styled.div`
     display:flex;
+    margin-top: ${(props) => (window.innerHeight * 0.2 > 90 ? '20vh' : '90px')};/* Matches header height - 10vh*/
+
     
 `
 

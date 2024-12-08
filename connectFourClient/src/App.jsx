@@ -8,7 +8,6 @@ import Header from './components/Header'
 import LogIn from './components/LogIn'
 import Lobby from './components/Lobby'
 import PlayAgain from './components/PlayAgain'
-import FourTiles from './components/FourTiles'
 import ChatWindow from './components/ChatWindow'
 
 import styled from 'styled-components'
@@ -17,17 +16,20 @@ import { useGameContext } from './context/GameContext.jsx'
 import { useLobbyContext } from './context/LobbyContext.jsx'
 import { useChatContext } from './context/ChatContext.jsx'
 
+// socket emitters and listeners
 import {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame} from './utils/socketEmitters.js'
 import { initializeListeners } from './utils/socketListeners'
 
 const GameOn = styled.div`
-  display:flex
-  align-items:center
+  display:flex;
+  align-items:center;
+  margin-top: ${(props) => (window.innerHeight * 0.2 > 90 ? '20vh' : '90px')};/* Matches header height - 10vh*/
+
 `
 
 function App() {
 
-  // state from useContext, context, state context .... ?
+  // state from useContext
   const {
     player, setPlayer,
      friends, setFriends
@@ -136,10 +138,8 @@ function App() {
     <>
       <Header player={player} onCreateGame={createGame} gameOn={gameOn}/>
 
-      {!gameOn && !player && <div>
+      {!gameOn && !player && 
            <LogIn onSignUp = {signUp} onLogIn={logIn}/>
-           {/* <FourTiles /> */}
-      </div>     
         }
 
         {player && !gameOn && <Lobby 
@@ -152,8 +152,6 @@ function App() {
           onUnfriend={unFriend}
         />}
 
-        
-    
       {gameOn && <GameOn> 
         <Board boardArr={board} onColumnSelect={columnSelect}/>
         <ChatWindow onSendMessage={sendMessage} chatMessages={chatMessages} playerId={player.playerId}/>
