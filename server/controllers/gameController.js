@@ -68,8 +68,8 @@ const controller = (lobby) => {
     };
 
     const joinGame = (playerId, gameId) => {
-        const player = lobby.findPlayerById(playerId);
-        const joinedGame = lobby.joinGame(player, gameId);
+        const player = lobby.findPlayerById(playerId)
+        const joinedGame = lobby.joinGame(player, gameId)
 
         return {
             success: joinedGame instanceof Game,
@@ -79,13 +79,13 @@ const controller = (lobby) => {
     };
 
     const viewOpenGames = () => {
-        return lobby.viewOpenGames();
+        return lobby.viewOpenGames()
     };
 
     const playTurn = (playerId, columnIndex, gameId) => {
-        const player = lobby.findPlayerById(playerId);
-        const game = lobby.findGameById(gameId);
-        const isGameOver = game.playTurn(player, columnIndex);
+        const player = lobby.findPlayerById(playerId)
+        const game = lobby.findGameById(gameId)
+        const isGameOver = game.playTurn(player, columnIndex)
         // Update DB
         if(isGameOver) {
             for (let pl of game.players){
@@ -95,13 +95,13 @@ const controller = (lobby) => {
         
         const newActivePlayers = lobby.getAllActivePlayers()
 
-        return { isGameOver, game, newActivePlayers };
+        return { isGameOver, game, newActivePlayers }
     }
 
     const rematch = ((playerId, gameId) => {
-        const player = lobby.findPlayerById(playerId);
-        const game = lobby.findGameById(gameId);
-        game.rematch[player.playerNumber] = true;
+        const player = lobby.findPlayerById(playerId)
+        const game = lobby.findGameById(gameId)
+        game.rematch[player.playerNumber] = true
 
         if(game.gameOver && game.rematch[1] && game.rematch[2]){
             console.log("BOTH PLAYERS WANT TO PLAY AGAIN!!")
@@ -114,23 +114,35 @@ const controller = (lobby) => {
                 game: game,
                 currentGames: lobby.games
             }
-        };
-    });
+        }
+    })
+
+    const getLobbyPlayerById = id => {
+        return lobby.findPlayerById(id)
+    }
+    const getConnectionId = id => {
+        return lobby.findConnectionIdByPlayerId(id)
+    }
+
+    const acceptInvite = (player1Id, player2Id) => {
+        const newGame = createGame(player1Id).game;
+        return joinGame(player2Id, newGame.gameId);
+    }
 
 
     const addFriend = async (playerId, friendId) => {
 
-        const player = lobby.findPlayerById(playerId);
+        const player = lobby.findPlayerById(playerId)
 
-        const { data, error } = await addFriendToDb(playerId, friendId);
+        const { data, error } = await addFriendToDb(playerId, friendId)
         if (error) {
-            console.error("Failed to add friend to DB:", error.message);
+            console.error("Failed to add friend to DB:", error.message)
             const newFriendIds = player.addFriend(friendId)
             const newFriends = newFriendIds.map(friendId => lobby.findPlayerById(friendId))
             return newFriends
 
         } else {
-            console.log("Friend added successfully:", data);
+            console.log("Friend added successfully:", data)
             const friendIds = await getAllFriends(playerId)
             // update player object form db
             player.updateFriendIds(friendIds)
@@ -146,17 +158,17 @@ const controller = (lobby) => {
 
     const unFriend = async (playerId, friendId) => {
 
-        const player = lobby.findPlayerById(playerId);
+        const player = lobby.findPlayerById(playerId)
 
-        const { data, error } = await removeFriendFromDb(playerId, friendId);
+        const { data, error } = await removeFriendFromDb(playerId, friendId)
         if (error) {
-            console.error("Failed to remove friend from DB:", error.message);
+            console.error("Failed to remove friend from DB:", error.message)
             // const newFriendIds = player.addFriend(friendId)
             // const newFriends = newFriendIds.map(friendId => lobby.findPlayerById(friendId))
             // return newFriends
 
         } else {
-            console.log("Friend removed:", data);
+            console.log("Friend removed:", data)
             const friendIds = await getAllFriends(playerId)
 
             // get data from DB and return Player objects
@@ -178,7 +190,10 @@ const controller = (lobby) => {
         playTurn,
         rematch,
         addFriend,
-        unFriend
+        unFriend,
+        acceptInvite,
+        getConnectionId,
+        getLobbyPlayerById
     };
 };
 

@@ -103,17 +103,39 @@ const socketHandlers = (io, controller, authController) => {
         socket.on('addFriend', async data => {
             console.log("add friend event received", data)
             const response = await controller.addFriend(data.playerId, data.friendId)
-            console.log('response back from add friend', response)
             socket.emit('updateFriendsResponse', response)
         })
         // TODO - make both emit updateFriendResponse
         socket.on('unFriend', async data => {
             console.log("unfriend event received", data)
             const response = await controller.unFriend(data.playerId, data.friendId)
-            console.log('response back from unfriend', response)
             socket.emit('updateFriendsResponse', response)
         })
 
+        socket.on('invite', async data => {
+            console.log("invite event received", data)
+
+            // get invited player's connectionId from controller->lobby
+            const inviteeConnectionId = controller.getConnectionId(data.friendId)
+            console.log(inviteeConnectionId)
+            const invitingPlayer = controller.getLobbyPlayerById(data.playerId)
+
+            // use to send invite
+            io.to(inviteeConnectionId).emit('invitation', invitingPlayer)
+
+                // receive invitation event o f/e
+                // create a button to accept/decline, that sends acceptInvite/declineInvite events to server
+
+            // respond with 'invitation sent'
+                
+                // if recipient accepts, this is the trigger to create new game
+                // so invitation should have all data reqired to initiate  game from invitees end
+                // if declined a message is sent back to inviter
+        })
+
+        socket.on('acceptInvite', data => {
+            const response = controller.acceptInvite(_ , _)
+        })
 
 
 

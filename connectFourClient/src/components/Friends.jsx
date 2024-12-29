@@ -44,7 +44,7 @@ const Button = styled.button`
     }
 `
 
-const Friends = ({ onUnfriend}) => {
+const Friends = ({ onInvite, onUnfriend}) => {
 
 
     const {player, friends} = usePlayerContext()
@@ -57,7 +57,7 @@ const Friends = ({ onUnfriend}) => {
             return (<Friend key={friend.playerId}> 
                 <span>{friend.playerName}</span> 
                 <span>active:{friend.isActive && 'True!'} </span>
-                <Button>Challenge {friend.playerName} </Button>
+                <Button onClick={() => onInvite(friend.playerId, player.playerId)}>Invite {friend.playerName} to play {friend.playerName} </Button>
                 <span onClick={() => onUnfriend(friend.playerId, player.playerId)}>Unfriend</span>
              </Friend>)
         })}

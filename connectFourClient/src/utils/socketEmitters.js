@@ -38,6 +38,13 @@ const signUp = (playerName, email, password) => {
     })
   }
 
+  const invite = (friendId, playerId) => {
+    socket.emit('invite', {
+      friendId,
+      playerId
+    })
+  }
+
   const unFriend = (friendId, playerId) => {
     socket.emit('unFriend', {
       friendId,
@@ -83,4 +90,4 @@ const signUp = (playerName, email, password) => {
     setGameOver(false)
   }
 
-  export {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame}
+  export {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame, invite}

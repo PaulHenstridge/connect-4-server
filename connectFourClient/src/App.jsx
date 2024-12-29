@@ -17,7 +17,7 @@ import { useLobbyContext } from './context/LobbyContext.jsx'
 import { useChatContext } from './context/ChatContext.jsx'
 
 // socket emitters and listeners
-import {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame} from './utils/socketEmitters.js'
+import {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame, invite} from './utils/socketEmitters.js'
 import { initializeListeners } from './utils/socketListeners'
 
 const GameOn = styled.div`
@@ -39,7 +39,7 @@ function App() {
     currentGame, setCurrentGame,
     gameOn, setGameOn, 
     gameOver, setGameOver, 
-    winner, setWiner,
+    winner, setWinner,
     board, setBoard
         } = useGameContext()
 
@@ -128,6 +128,10 @@ function App() {
         console.log('room message received', message)
 
         setChatMessages(prevMessages => [...prevMessages, message])
+      },
+      onInvitation: invitingPlayer => {
+        console.log('invitation received from ', invitingPlayer.playerName)
+
       }
     })
     return () => cleanup()
@@ -150,6 +154,7 @@ function App() {
           friends={friends}
           onAddFriend={addFriend}
           onUnfriend={unFriend}
+          onInvite={invite}
         />}
 
       {gameOn && <GameOn> 

@@ -12,6 +12,7 @@ export const initializeListeners = callbacks => {
     socket.on("rematchResponse", callbacks.onRematch)
     socket.on('updateFriendsResponse', callbacks.onUpdateFriends)
     socket.on("roomMessage",callbacks.onRoomMessage)
+    socket.on("invitation",callbacks.onInvitation)
 
     return () => {
         socket.off('enterLobbyResponse')

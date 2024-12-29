@@ -8,7 +8,7 @@ export default class Lobby {
     }
 
     enterLobby(name, playerId, socketId){
-        const player = new Player(name, playerId);
+        const player = new Player(name, playerId)
         this.activePlayers.set(player.playerId, { player, socketId})
         return player;
     }
@@ -21,13 +21,13 @@ export default class Lobby {
 
     createGame(player){
         const game = new Game([player])
-        game.players[0].playerNumber = 1;
-        this.games.push(game);
-        return game;
+        game.players[0].playerNumber = 1
+        this.games.push(game)
+        return game
     }
 
     joinGame(player, gameId){
-        const game = this.findGameById(gameId);
+        const game = this.findGameById(gameId)
 
         if (!game) return 'Game not found';
         if(game.players.length >=2)return 'game full'
@@ -49,7 +49,7 @@ export default class Lobby {
     }
 
     findGameById(gameId){
-        return this.games.find(game => game.gameId === gameId);
+        return this.games.find(game => game.gameId === gameId)
     }
 
     updateGame(gameId){
@@ -57,23 +57,23 @@ export default class Lobby {
     }
 
     findPlayerById(id){
-        const entry = this.activePlayers.get(id);
-        return entry ? entry.player : undefined;
+        const entry = this.activePlayers.get(id)
+        return entry ? entry.player : undefined
     }
 
 
     findConnectionIdByPlayerId(id) {
-        const entry = this.activePlayers.get(id);
-        return entry ? entry.connectionId : undefined;
+        const entry = this.activePlayers.get(id)
+        return entry ? entry.socketId : undefined
     }
 
     removePlayerById(id) {
-        console.log('removing player with id', id);
-        this.activePlayers.delete(id);
+        console.log('removing player with id', id)
+        this.activePlayers.delete(id)
     }
     getAllActivePlayers() {
         // Map entries to extract only the player objects
-        return Array.from(this.activePlayers.values()).map(entry => entry.player);
+        return Array.from(this.activePlayers.values()).map(entry => entry.player)
     }
     removePlayerByConnectionId(socketId) {
         console.log("active players", this.activePlayers)
@@ -85,7 +85,7 @@ export default class Lobby {
                 return true;
             }
         }
-        console.log('No player found with that connection ID');
+        console.log('No player found with that connection ID')
         return false;
     }
 }
