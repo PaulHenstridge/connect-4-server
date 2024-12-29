@@ -45,7 +45,8 @@ function App() {
 
   const {
     players, setPlayers,
-    games, setGames} = useLobbyContext()
+    games, setGames,
+    invitations, setInvitations} = useLobbyContext()
 
     const {chatMessages, setChatMessages} = useChatContext();
 
@@ -131,7 +132,11 @@ function App() {
       },
       onInvitation: invitingPlayer => {
         console.log('invitation received from ', invitingPlayer.playerName)
-
+        setInvitations([...invitations, invitingPlayer])
+        // TODO - create state for an array of inviting players
+        //      - send invitations down to Friends component
+        //       - render each invitation with accept/decline
+        //       - update invitations state on accept/decline
       }
     })
     return () => cleanup()

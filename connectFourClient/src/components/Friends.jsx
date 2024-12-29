@@ -1,10 +1,11 @@
+import React, { useState } from 'react';
+
+
 import styled from 'styled-components'
 import { usePlayerContext } from '../context/PlayerContext.jsx'
+import {useLobbyContext} from '../context/LobbyContext.jsx'
 
 const FriendsContainer = styled.div`
-    /* display:flex;
-    flex-direction: column; */
-    /* padding: 4em; */
     border: 2px solid aliceblue;
     margin: 2em;
     width:30vw;
@@ -14,9 +15,13 @@ const FriendsContainer = styled.div`
         padding:0.5em 0 0.5em 0;
         align-self:flex-start;
     }
+    display: flex;
+    flex-direction: column;
+    position: relative;
 `
 const Ul = styled.ul`
     padding-inline-start:0;
+    position:relative;
 `
 
 const Friend = styled.li`
@@ -43,25 +48,47 @@ const Button = styled.button`
         padding: 0.65em 1.2em;
     }
 `
+const InvitesWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    `
+
+const InvitesBar = styled.div`
+    position:absolute;
+    top:0;
+    width:100%;
+    height:30px;
+    background-color: pink;
+    margin-top:40px;
+`
+
+
 
 const Friends = ({ onInvite, onUnfriend}) => {
 
 
     const {player, friends} = usePlayerContext()
+    const {invitations, setInvitations} = useLobbyContext()
+
     console.log('friends received into Friend component:', friends)
 
     return ( <FriendsContainer>
         <h4>Friends</h4>
-        <Ul>
-             { friends.map(friend => {
-            return (<Friend key={friend.playerId}> 
-                <span>{friend.playerName}</span> 
-                <span>active:{friend.isActive && 'True!'} </span>
-                <Button onClick={() => onInvite(friend.playerId, player.playerId)}>Invite {friend.playerName} to play {friend.playerName} </Button>
-                <span onClick={() => onUnfriend(friend.playerId, player.playerId)}>Unfriend</span>
-             </Friend>)
-        })}
-       </Ul>
+        <InvitesWrapper>
+        {invitations[0] && <InvitesBar>{invitations.map(inv => {
+            return <span key={inv.playerId}>{inv.playerName} has invited you to play</span>
+        })} </InvitesBar>}
+            <Ul>
+                { friends.map(friend => {
+                return (<Friend key={friend.playerId}> 
+                    <span>{friend.playerName}</span> 
+                    <span>active:{friend.isActive && 'True!'} </span>
+                    <Button onClick={() => onInvite(friend.playerId, player.playerId)}>Invite {friend.playerName} to play </Button>
+                    <span onClick={() => onUnfriend(friend.playerId, player.playerId)}>Unfriend</span>
+                </Friend>)
+            })}
+        </Ul>
+       </InvitesWrapper>
     </FriendsContainer> );
 }
  
