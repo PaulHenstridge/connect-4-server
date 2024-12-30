@@ -45,6 +45,19 @@ const signUp = (playerName, email, password) => {
     })
   }
 
+  const acceptInvite = (friendId, playerId) => {
+    socket.emit('acceptInvite', {
+      friendId,
+      playerId
+    })
+  }
+  const declineInvite = (friendId, playerId) => {
+    socket.emit('declineInvite', {
+      friendId,
+      playerId
+    })
+  }
+
   const unFriend = (friendId, playerId) => {
     socket.emit('unFriend', {
       friendId,
@@ -90,4 +103,4 @@ const signUp = (playerName, email, password) => {
     setGameOver(false)
   }
 
-  export {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame, invite}
+  export {signUp, logIn, createGame, joinGame, columnSelect, declareWinner, addFriend, unFriend, sendMessage, rematch, endGame, invite, acceptInvite, declineInvite}

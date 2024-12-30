@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { usePlayerContext } from '../context/PlayerContext.jsx'
 import {useLobbyContext} from '../context/LobbyContext.jsx'
 
+import Invite from './Invite.jsx';
+
 const FriendsContainer = styled.div`
     border: 2px solid aliceblue;
     margin: 2em;
@@ -13,7 +15,6 @@ const FriendsContainer = styled.div`
         background-color:#1b0953;
         margin: 0;
         padding:0.5em 0 0.5em 0;
-        align-self:flex-start;
     }
     display: flex;
     flex-direction: column;
@@ -54,17 +55,19 @@ const InvitesWrapper = styled.div`
     `
 
 const InvitesBar = styled.div`
-    position:absolute;
-    top:0;
+    /* position:absolute;
+    top:0; */
     width:100%;
-    height:30px;
-    background-color: pink;
-    margin-top:40px;
+    height:min-content;
+    background-color: #ab2f43;
+    padding:0.4em 0;
+    margin:0.4rem 0;
+    /* margin-top:40px; */
 `
 
 
 
-const Friends = ({ onInvite, onUnfriend}) => {
+const Friends = ({ onInvite, onUnfriend, onAccept, onDecline}) => {
 
 
     const {player, friends} = usePlayerContext()
@@ -76,7 +79,12 @@ const Friends = ({ onInvite, onUnfriend}) => {
         <h4>Friends</h4>
         <InvitesWrapper>
         {invitations[0] && <InvitesBar>{invitations.map(inv => {
-            return <span key={inv.playerId}>{inv.playerName} has invited you to play</span>
+            return <Invite 
+                key={inv.playerId}
+                playerName={inv.playerName}
+                playerId={inv.playerId}
+                onAccept={onAccept}
+                onDecline={onDecline} />
         })} </InvitesBar>}
             <Ul>
                 { friends.map(friend => {

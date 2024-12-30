@@ -134,7 +134,11 @@ const socketHandlers = (io, controller, authController) => {
         })
 
         socket.on('acceptInvite', data => {
-            const response = controller.acceptInvite(_ , _)
+            const response = controller.acceptInvite(data.friendId, data.playerId)
+        })
+        socket.on('declineInvite', data => {
+            // const response = controller.declineInvite(data.friendId, data.playerId)
+            //  needed, or just return a message?
         })
 
 

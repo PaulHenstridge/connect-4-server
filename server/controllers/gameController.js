@@ -125,8 +125,10 @@ const controller = (lobby) => {
     }
 
     const acceptInvite = (player1Id, player2Id) => {
-        const newGame = createGame(player1Id).game;
-        return joinGame(player2Id, newGame.gameId);
+        const player1 = lobby.findPlayerById(player1Id)
+        const player2 = lobby.findPlayerById(player2Id)
+        const newGame = createGame(player1).game;
+        return joinGame(player2, newGame.gameId);
     }
 
 
