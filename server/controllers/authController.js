@@ -17,7 +17,6 @@ const authController = () => {
 
     const logIn = async (email, password) => {
         const {data, error} = await logInUser(email, password)
-        console.log('data,error in LOGIN', data, error)
 
         // TODO - get values form data to produce player object
         if(error){

@@ -45,10 +45,10 @@ const signUp = (playerName, email, password) => {
     })
   }
 
-  const acceptInvite = (friendId, playerId) => {
+  const acceptInvite = (inviterId, inviteeId) => {
     socket.emit('acceptInvite', {
-      friendId,
-      playerId
+      inviterId,
+      inviteeId
     })
   }
   const declineInvite = (friendId, playerId) => {

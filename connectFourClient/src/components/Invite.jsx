@@ -1,16 +1,22 @@
 import styled from 'styled-components'
+import { usePlayerContext } from '../context/PlayerContext.jsx'
 
 const InviteBtn = styled.button`
     margin:0.2em;
     font-size:0.8em;
 `
 
-const Invite = ({playerName, playerId, onAccept, onDecline}) => {
+
+const Invite = ({inviterName, inviterId, onAccept, onDecline}) => {
+
+    const {player} = usePlayerContext()
+
+
     return ( <div>
-        <span>{playerName} has invited you to play</span>
+        <span>{inviterName} has invited you to play</span>
         <div>
-            <InviteBtn onClick={()=>onAccept(playerId)}>Accept</InviteBtn>
-            <InviteBtn onClick={()=>onDecline(playerId)}>Decline</InviteBtn>
+            <InviteBtn onClick={()=>onAccept(inviterId, player.playerId)}>Accept</InviteBtn>
+            <InviteBtn onClick={()=>onDecline(inviterId, player.playerId)}>Decline</InviteBtn>
         </div>
     </div> );
 }

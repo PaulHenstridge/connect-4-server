@@ -31,7 +31,7 @@ const socketHandlers = (io, controller, authController) => {
                 if(socket.connected && !logInResponse.error){
                     // call new fuction in lobby - via gameController, returnToLobby(playerId)
                     const response = await controller.returnToLobby(logInResponse.playerId, socket.id)
-                    console.log("return to Lobby event response ", response)
+                    // console.log("return to Lobby event response ", response)
                     socket.emit("playerObject", {player:response.player, friends: response.friends});
     
                     io.emit('returnToLobbyResponse', response);
@@ -134,7 +134,9 @@ const socketHandlers = (io, controller, authController) => {
         })
 
         socket.on('acceptInvite', data => {
-            const response = controller.acceptInvite(data.friendId, data.playerId)
+            const response = controller.acceptInvite(data.inviterId, data.inviteeId)
+            // TODO - send acceptInviteRespons (amend on f/e) to the 2 players only
+            // and check im not sending games to all players in event of multiple games
         })
         socket.on('declineInvite', data => {
             // const response = controller.declineInvite(data.friendId, data.playerId)

@@ -81,8 +81,8 @@ const Friends = ({ onInvite, onUnfriend, onAccept, onDecline}) => {
         {invitations[0] && <InvitesBar>{invitations.map(inv => {
             return <Invite 
                 key={inv.playerId}
-                playerName={inv.playerName}
-                playerId={inv.playerId}
+                inviterName={inv.playerName}
+                inviterId={inv.playerId}
                 onAccept={onAccept}
                 onDecline={onDecline} />
         })} </InvitesBar>}
