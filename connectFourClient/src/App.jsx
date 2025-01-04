@@ -77,7 +77,7 @@ function App() {
         console.log("createGame response received")
         setCurrentGame(data.game)
         setGames(data.currentGames)
-        setWaitingforOpponent(true)
+        // setWaitingforOpponent(true)
       },
       onJoinGame: data => {
         console.log("joinGame response received", data);

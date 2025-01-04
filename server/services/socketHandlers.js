@@ -70,9 +70,11 @@ const socketHandlers = (io, controller, authController) => {
         //  join game - (playerId, gameId),
         socket.on('joinGame', (data) => {
             const response = controller.joinGame(data.playerId, data.gameId)
-            console.log("joinGame event received");
+            console.log("joinGame response", response);
             if(response.success) socket.join(data.gameId)
-            io.emit('joinGameResponse', response);
+            response.game.players.forEach(player => {
+                io.to(player.socketId).emit('joinGameResponse', response);
+            })
         });
         // view open games
         socket.on('viewOpen', (data) => {
@@ -122,15 +124,6 @@ const socketHandlers = (io, controller, authController) => {
 
             // use to send invite
             io.to(inviteeConnectionId).emit('invitation', invitingPlayer)
-
-                // receive invitation event o f/e
-                // create a button to accept/decline, that sends acceptInvite/declineInvite events to server
-
-            // respond with 'invitation sent'
-                
-                // if recipient accepts, this is the trigger to create new game
-                // so invitation should have all data reqired to initiate  game from invitees end
-                // if declined a message is sent back to inviter
         })
 
         socket.on('acceptInvite', data => {

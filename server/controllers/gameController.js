@@ -69,6 +69,7 @@ const controller = (lobby) => {
 
     const joinGame = (playerId, gameId) => {
         const player = lobby.findPlayerById(playerId)
+        console.log('player obj to lobby.joinGame', player)
         const joinedGame = lobby.joinGame(player, gameId)
 
         return {
