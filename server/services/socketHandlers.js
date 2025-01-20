@@ -45,7 +45,7 @@ const socketHandlers = (io, controller, authController) => {
         socket.on('enterLobby', (playerName) => {
             if(socket.connected){
                 const response = controller.enterLobby(playerName, socket.id);
-                console.log("enterLobby event response ", response)
+                // console.log("enterLobby event response ", response)
                 socket.emit("playerObject", response.newPlayer);
                 io.emit('enterLobbyResponse', response);
             } else {
@@ -57,7 +57,7 @@ const socketHandlers = (io, controller, authController) => {
         socket.on('disconnect', () => {
             console.log('user disconnected', socket.id)
             const response = controller.removeFromLobby(socket.id)
-            console.log('exitLobby event response', response)
+            // console.log('exitLobby event response', response)
             io.emit('exitLobbyResponse', response)
         })
 
@@ -73,7 +73,9 @@ const socketHandlers = (io, controller, authController) => {
             console.log("joinGame response", response);
             if(response.success) socket.join(data.gameId)
             response.game.players.forEach(player => {
-                io.to(player.socketId).emit('joinGameResponse', response);
+                console.log("player in forEach", player)
+                const socketId = controller.getConnectionId(player.playerId)
+                io.to(socketId).emit('joinGameResponse', response);
             })
         });
         // view open games
@@ -128,8 +130,12 @@ const socketHandlers = (io, controller, authController) => {
 
         socket.on('acceptInvite', data => {
             const response = controller.acceptInvite(data.inviterId, data.inviteeId)
-            // TODO - send acceptInviteRespons (amend on f/e) to the 2 players only
-            // and check im not sending games to all players in event of multiple games
+            response.game.players.forEach(player => {
+                console.log("player in forEach", player)
+                const socketId = controller.getConnectionId(player.playerId)
+                io.to(socketId).emit('joinGameResponse', response);
+            })
+
         })
         socket.on('declineInvite', data => {
             // const response = controller.declineInvite(data.friendId, data.playerId)
