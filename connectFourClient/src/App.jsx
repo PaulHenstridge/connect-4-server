@@ -58,19 +58,36 @@ function App() {
         console.log('enterLobby event received ', data)
         setGames(data.currentGames)
         setPlayers(data.players)
-        setFriends(data.newPlayer.friends)
+        // TODO - exrtact as a helper function & destructure
+        const friendsWithStatus = data.newPlayer.friends.map(friend => {
+          const isActive = data.players.some(player => player.playerId === friend.playerId)
+          return { ...friend, isActive }
+        })
+        setFriends(friendsWithStatus)
+   
       },
       onReturnToLobby: data => {
         console.log("ReturnLobby rrsponse -->", data)
         setGames(data.currentGames)
         setPlayers(data.players)
-        if(data.returningPlayer)
-        console.log('FRIENDS STATE SET TO ->', friends)
+        // console.log('FwStatus*','data.friends:',data.friends,'data.players:', data.players )
+        // const friendsWithStatus = data.friends.map(friend => { 
+        //   const isActive = data.players.some(player => player.playerId === friend.playerId)
+        //   return { ...friend, isActive }
+        // })
+        // setFriends(friendsWithStatus)
       },
-      onPlayerObject:data => {
-        console.log('newPlayerObject event received ', data)
-        setPlayer(data.player)
-        setFriends(data.friends)
+
+      onPlayerObject:({player, friends}) => {
+        setPlayer(player)
+        // TODO - exrtact as a helper function
+        // have friends component update whenever smeone logs in/out
+        console.log("adding status ** ", {players, friends})
+        const friendsWithStatus = friends.map(friend => {
+          const isActive = players.some(player => player.playerId === friend.playerId)
+          return { ...friend, isActive }
+        })
+        setFriends(friendsWithStatus)
 
       },
       onCreateGame:data => {
@@ -94,6 +111,14 @@ function App() {
       console.log('exitLobby response received', data)
       if (data.success){
         setPlayers(data.activePlayers)
+
+        const friendsWithStatus = friends.map(friend => {
+          // using the passed value to avoid react runtime issues
+          const isActive = data.activePlayers.some(player => player.playerId === friend.playerId)
+          return { ...friend, isActive }
+        })
+        setFriends(friendsWithStatus)
+
         //TODO - add a message - playername has disconnected
       }
       },
@@ -117,8 +142,9 @@ function App() {
           setGames(data.currentGames);
         }
       }, 
-      onUpdateFriends: friends => {
+      onUpdateFriends: friends => { // TODO - this should be sent via the playerObject, so only goes to correct player, not all.
         console.log("update friend response received", friends);
+        // TODO - exrtact as a helper function
         const friendsWithStatus = friends.map(friend => {
           const isActive = players.some(player => player.playerId === friend.playerId)
           return { ...friend, isActive }

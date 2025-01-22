@@ -56,7 +56,6 @@ if (error) {
   console.error('Error fetching player:', error.message);
   return null;
 }
-console.log('player returned from DB', player)
 return player;
 }
 

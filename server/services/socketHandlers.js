@@ -18,7 +18,7 @@ const socketHandlers = (io, controller, authController) => {
                 
                 console.log("SignUp event response ", response)
 
-                socket.emit("playerObject", response.newPlayer);
+                socket.emit("playerObject",{player:response.newPlayer, friends: response.player.friends});
                 io.emit('enterLobbyResponse', response);
 
             } else {
@@ -46,7 +46,7 @@ const socketHandlers = (io, controller, authController) => {
             if(socket.connected){
                 const response = controller.enterLobby(playerName, socket.id);
                 // console.log("enterLobby event response ", response)
-                socket.emit("playerObject", response.newPlayer);
+                socket.emit("playerObject", {player:response.newPlayer,friends: response.player.friends});
                 io.emit('enterLobbyResponse', response);
             } else {
                 console.log("Connection Failed - socket not connected")
